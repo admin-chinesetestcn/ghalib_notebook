@@ -60,7 +60,26 @@ body {
 }
 #bg-img-el:active { cursor:grabbing; }
 #bg-img-el.dragging { cursor:grabbing; }
-#bg-img-el.has-shadow { filter: drop-shadow(0 4px 18px rgba(0,0,0,0.55)) drop-shadow(0 1px 4px rgba(0,0,0,0.35)); }
+
+/* ═══ BG IMAGE SHADOW OVERLAY — all-edges premium vignette ═══ */
+#bg-img-shadow-overlay {
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  display:none;
+  /* Multi-stop radial vignette from all edges inward */
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(0,0,0,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 0%   50%, rgba(0,0,0,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 100% 50%, rgba(0,0,0,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 0%   0%,  rgba(0,0,0,0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 0%,  rgba(0,0,0,0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 0%   100%,rgba(0,0,0,0.40) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 100%,rgba(0,0,0,0.40) 0%, transparent 65%);
+}
+#bg-img-shadow-overlay.visible { display:block; }
 
 /* ═══ GUIDELINE ═══ */
 #guideline-45 {
@@ -175,6 +194,8 @@ body {
   padding:9px 11px; white-space:nowrap; min-width:240px;
   box-shadow:0 8px 28px rgba(0,0,0,.75);
   transform:translateX(-50%);
+  /* Prevent pointer events from leaking to card */
+  pointer-events:auto;
 }
 #word-zoom-bar .wz-row1 { display:flex; align-items:center; gap:5px; margin-bottom:8px; }
 #word-zoom-bar .wz-row2 { display:flex; align-items:center; }
@@ -183,6 +204,8 @@ body {
   border-radius:50%; width:26px; height:26px; font-size:17px; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   transition:background .15s; flex-shrink:0; line-height:1;
+  /* Make sure these don't bubble up */
+  user-select:none;
 }
 #word-zoom-bar .wz-btn:hover { background:#444; }
 #word-zoom-bar .wz-size { font-size:12px; color:#ccc; min-width:38px; text-align:center; }
@@ -435,6 +458,14 @@ input[type="file"]   { display:none; }
 .badge-size-btn.active { border-color:#1d9bf0; background:#0d1520; color:#5bc0f8; }
 
 #wm-vis-toggle.on { border-color:#bbb; background:#191919; }
+
+/* ═══ BG SHADOW INTENSITY TOGGLE ═══ */
+#bg-img-shadow-toggle.on { border-color:#c8a84b; background:#151209; }
+#bg-img-shadow-toggle.on .toggle-label { color:#e0c060; }
+#bg-img-shadow-toggle.on .tog-switch { background:#c8a84b; }
+
+#shadow-intensity-wrap { display:none; margin-top:8px; }
+#shadow-intensity-wrap.visible { display:block; }
 </style>
 </head>
 <body>
@@ -471,6 +502,9 @@ input[type="file"]   { display:none; }
 
         <!-- DRAGGABLE BG IMAGE -->
         <img id="bg-img-el" src="" alt="" draggable="false">
+
+        <!-- Premium all-edges shadow overlay for bg image -->
+        <div id="bg-img-shadow-overlay"></div>
 
         <div id="overlay-layer"></div>
         <div id="guideline-45"></div>
@@ -723,14 +757,22 @@ input[type="file"]   { display:none; }
           <label>Image Opacity — <span class="val" id="bg-opacity-val">100</span>%</label>
           <input type="range" min="0" max="100" value="100" id="bg-opacity-range" oninput="setBgOpacity(this.value)">
 
+          <!-- ✨ NEW: Premium all-edges shadow toggle -->
+          <div class="toggle-row on" id="bg-img-shadow-toggle" onclick="toggleBgImgEdgeShadow()" style="margin-top:4px;">
+            <span class="toggle-label">✨ Premium Edge Shadow</span>
+            <div class="tog-switch"></div>
+          </div>
+
+          <div id="shadow-intensity-wrap" class="visible">
+            <label style="margin-top:8px;">Shadow Intensity — <span class="val" id="shadow-intensity-val">60</span>%</label>
+            <input type="range" min="10" max="100" value="60" id="shadow-intensity-range" oninput="setShadowIntensity(this.value)">
+          </div>
+
           <div class="bg-img-btn-row">
             <button class="bg-img-action-btn" onclick="centerBgImg()">⊙ Centre Image</button>
             <button class="bg-img-action-btn" onclick="fitBgImg()">⤢ Fit to Card</button>
             <button class="bg-img-action-btn" onclick="fillBgImg()">⬛ Fill Card</button>
             <button class="bg-img-action-btn danger" onclick="removeBgImg()">✕ Remove</button>
-          </div>
-          <div class="bg-img-btn-row" style="margin-top:2px;">
-            <button class="bg-img-action-btn active-toggle" id="bg-img-shadow-btn" onclick="toggleBgImgShadow(this)">🌑 Shadow: ON</button>
           </div>
         </div>
 
@@ -866,8 +908,8 @@ let guidelineOn     = false;
 let chipVisible     = true;
 let badgeVisible    = true;
 let wmVisible       = true;
-let wordOverrides   = {};   // { 'li-wi': { size, color, font } }
-let lineOverrides   = {};   // { li: { color, size } }
+let wordOverrides   = {};
+let lineOverrides   = {};
 let selectedWordKey = null;
 let sepStyle        = 'none';
 let sepColor        = '#111111';
@@ -875,17 +917,22 @@ let sepOpacity      = 35;
 let sepWidth        = 60;
 
 // bg image state
-let bgImgScale    = 100;   // percent
-let bgImgX        = 0;     // px from top-left of card
+let bgImgScale    = 100;
+let bgImgX        = 0;
 let bgImgY        = 0;
 let bgImgLoaded   = false;
 let bgImgNatW     = 0;
 let bgImgNatH     = 0;
+let bgEdgeShadow  = true;   // premium edge shadow ON by default
+let shadowIntensity = 60;   // 10-100
 
 // drag shared
-let activeDrag    = null; // 'chip' | 'text' | 'bgimg'
+let activeDrag    = null;
 let dragOffX      = 0, dragOffY = 0;
-let pointerMoved  = false;
+
+// ══ FIX: track pointer movement per drag gesture only ══
+let dragMoved     = false;  // true only while a drag is active and pointer has moved
+let wzBarActive   = false;  // true when pointer is down inside word-zoom-bar
 
 /* ══════════════════════════════════════════
    INIT
@@ -910,6 +957,10 @@ window.addEventListener('DOMContentLoaded', () => {
     lineOverrides = {};
     renderShayari();
   });
+
+  // Initialise shadow overlay state
+  document.getElementById('bg-img-shadow-toggle').classList.add('on');
+  updateEdgeShadowOverlay();
 });
 
 /* ══════════════════════════════════════════
@@ -932,7 +983,6 @@ function setCardSize(size) {
   updateGuideline();
   clampEl(document.getElementById('shayari-display'), w, h);
   clampEl(document.getElementById('profile-chip'), w, h);
-  // re-apply bg img position clamp
   if (bgImgLoaded) applyBgImgTransform();
 }
 
@@ -1010,7 +1060,6 @@ function renderShayari() {
 
     st.appendChild(lineSpan);
 
-    // separator
     if (sepStyle !== 'none' && li < lines.length - 1 && lines[li+1]?.trim()) {
       if (sepStyle === 'line') {
         const hr = document.createElement('span');
@@ -1099,18 +1148,15 @@ function initDrag() {
   const shayDisp = document.getElementById('shayari-display');
   const bgImg    = document.getElementById('bg-img-el');
 
-  // pointer down
   function onDown(e, target) {
     if (e.button !== undefined && e.button !== 0) return;
-    const isPen    = e.pointerType === 'pen';
-    const isTouch  = e.pointerType === 'touch';
-
-    // For shayari-display: require touch/pen; mouse click goes to word selection
+    const isPen   = e.pointerType === 'pen';
+    const isTouch = e.pointerType === 'touch';
     if (target === 'text' && !isTouch && !isPen) return;
 
     e.preventDefault();
-    activeDrag   = target;
-    pointerMoved = false;
+    activeDrag = target;
+    dragMoved  = false;
 
     const cx = e.clientX ?? e.touches?.[0]?.clientX;
     const cy = e.clientY ?? e.touches?.[0]?.clientY;
@@ -1133,7 +1179,7 @@ function initDrag() {
     if (!activeDrag) return;
     const cx = e.clientX ?? e.touches?.[0]?.clientX;
     const cy = e.clientY ?? e.touches?.[0]?.clientY;
-    pointerMoved = true;
+    dragMoved = true;
 
     const cardRect = card.getBoundingClientRect();
 
@@ -1167,48 +1213,71 @@ function initDrag() {
     activeDrag = null;
   }
 
-  // chip events
   chip.addEventListener('pointerdown', e => onDown(e, 'chip'));
-
-  // shayari-display — touch/pen drag
   shayDisp.addEventListener('pointerdown', e => {
     if (e.pointerType === 'touch' || e.pointerType === 'pen') onDown(e, 'text');
   });
-
-  // bg image drag
   bgImg.addEventListener('pointerdown', e => {
-    e.stopPropagation(); // don't bubble to card
+    e.stopPropagation();
     onDown(e, 'bgimg');
   });
 
-  // global move/up
   window.addEventListener('pointermove', onMove);
   window.addEventListener('pointerup',   onUp);
-  window.addEventListener('touchmove',   e => {
+  window.addEventListener('touchmove', e => {
     if (activeDrag) e.preventDefault();
   }, { passive: false });
 }
 
 /* ══════════════════════════════════════════
-   WORD ZOOM
+   WORD ZOOM — FIXED
+   Root cause: pointerdown on wz-bar buttons bubbled up, set
+   dragMoved=true on the NEXT interaction, which caused the
+   card click handler to think a drag happened and bail out.
+
+   Fix: use a dedicated wzBarActive flag. When pointer goes
+   down inside the bar we set wzBarActive=true. The card's
+   click handler checks this flag and skips dismiss/select.
 ══════════════════════════════════════════ */
 function initWordZoom() {
   const bar = document.getElementById('word-zoom-bar');
 
-  // Stop ALL events inside zoom bar from bubbling to the card click listener
-  // This is what prevents +/−/color/font/reset from triggering dismissWordZoom()
-  bar.addEventListener('click',       e => e.stopPropagation());
-  bar.addEventListener('pointerdown', e => e.stopPropagation());
-  bar.addEventListener('mousedown',   e => e.stopPropagation());
+  // ── Mark bar as active on ANY pointer/mouse down inside it ──
+  bar.addEventListener('pointerdown', e => {
+    wzBarActive = true;
+    e.stopPropagation();
+  });
+  bar.addEventListener('mousedown', e => {
+    wzBarActive = true;
+    e.stopPropagation();
+  });
+  // Also stop click from bubbling so card's click listener never fires
+  bar.addEventListener('click', e => {
+    e.stopPropagation();
+  });
 
-  // click on card to select word or dismiss
+  // Reset wzBarActive after any pointer/mouse up on the whole window
+  window.addEventListener('pointerup', () => {
+    // Small timeout so the card's click handler (which fires after pointerup) sees the flag
+    setTimeout(() => { wzBarActive = false; }, 50);
+  });
+  window.addEventListener('mouseup', () => {
+    setTimeout(() => { wzBarActive = false; }, 50);
+  });
+
+  // ── Card click: word select OR dismiss ──
   document.getElementById('card').addEventListener('click', e => {
+    // If interaction started inside the word-zoom-bar, do nothing
+    if (wzBarActive) return;
+
     const ws = e.target.closest('.word-span');
     if (!ws) {
-      dismissWordZoom();
+      // Only dismiss if we didn't just finish a drag
+      if (!dragMoved) dismissWordZoom();
+      dragMoved = false;
       return;
     }
-    if (pointerMoved) { pointerMoved = false; return; }
+    if (dragMoved) { dragMoved = false; return; }
 
     selectedWordKey = ws.dataset.wk;
     renderShayari();
@@ -1216,8 +1285,14 @@ function initWordZoom() {
   });
 
   // − + buttons
-  document.getElementById('wz-minus').addEventListener('click', () => adjustWordSize(-1));
-  document.getElementById('wz-plus').addEventListener('click',  () => adjustWordSize(+1));
+  document.getElementById('wz-minus').addEventListener('click', e => {
+    e.stopPropagation();
+    adjustWordSize(-1);
+  });
+  document.getElementById('wz-plus').addEventListener('click', e => {
+    e.stopPropagation();
+    adjustWordSize(+1);
+  });
 
   // colour
   document.getElementById('wz-color-input').addEventListener('input', function() {
@@ -1240,7 +1315,8 @@ function initWordZoom() {
   });
 
   // reset
-  document.getElementById('wz-reset-btn').addEventListener('click', () => {
+  document.getElementById('wz-reset-btn').addEventListener('click', e => {
+    e.stopPropagation();
     if (!selectedWordKey) return;
     delete wordOverrides[selectedWordKey];
     renderShayari();
@@ -1415,19 +1491,20 @@ function loadBgImage(input) {
   const imgEl = document.getElementById('bg-img-el');
 
   imgEl.onload = () => {
-    bgImgNatW  = imgEl.naturalWidth;
-    bgImgNatH  = imgEl.naturalHeight;
+    bgImgNatW   = imgEl.naturalWidth;
+    bgImgNatH   = imgEl.naturalHeight;
     bgImgLoaded = true;
 
-    // Default: fit to card
     fitBgImg();
 
-    imgEl.classList.add('has-shadow'); // soft shadow on by default
     document.getElementById('bg-img-controls').classList.add('visible');
     imgEl.style.display = 'block';
+
+    // Show edge shadow overlay by default
+    updateEdgeShadowOverlay();
   };
   imgEl.src = url;
-  input.value = ''; // allow re-upload of same file
+  input.value = '';
 }
 
 function applyBgImgTransform() {
@@ -1463,15 +1540,15 @@ function centerBgImg() {
 
 function fitBgImg() {
   if (!bgImgLoaded) return;
-  const card  = document.getElementById('card');
-  const cw    = parseInt(card.style.width);
-  const ch    = parseInt(card.style.height);
+  const card   = document.getElementById('card');
+  const cw     = parseInt(card.style.width);
+  const ch     = parseInt(card.style.height);
   const scaleW = cw / bgImgNatW;
   const scaleH = ch / bgImgNatH;
-  bgImgScale = Math.min(scaleW, scaleH) * 100;
+  bgImgScale   = Math.min(scaleW, scaleH) * 100;
   document.getElementById('bg-img-scale-range').value = Math.min(400, Math.round(bgImgScale));
   document.getElementById('bg-img-scale-val').textContent = Math.round(bgImgScale);
-  const scale = bgImgScale / 100;
+  const scale  = bgImgScale / 100;
   bgImgX = (cw - bgImgNatW * scale) / 2;
   bgImgY = (ch - bgImgNatH * scale) / 2;
   applyBgImgTransform();
@@ -1479,40 +1556,76 @@ function fitBgImg() {
 
 function fillBgImg() {
   if (!bgImgLoaded) return;
-  const card  = document.getElementById('card');
-  const cw    = parseInt(card.style.width);
-  const ch    = parseInt(card.style.height);
+  const card   = document.getElementById('card');
+  const cw     = parseInt(card.style.width);
+  const ch     = parseInt(card.style.height);
   const scaleW = cw / bgImgNatW;
   const scaleH = ch / bgImgNatH;
-  bgImgScale = Math.max(scaleW, scaleH) * 100;
+  bgImgScale   = Math.max(scaleW, scaleH) * 100;
   document.getElementById('bg-img-scale-range').value = Math.min(400, Math.round(bgImgScale));
   document.getElementById('bg-img-scale-val').textContent = Math.round(bgImgScale);
-  const scale = bgImgScale / 100;
+  const scale  = bgImgScale / 100;
   bgImgX = (cw - bgImgNatW * scale) / 2;
   bgImgY = (ch - bgImgNatH * scale) / 2;
   applyBgImgTransform();
-}
-
-function toggleBgImgShadow(btn) {
-  const imgEl = document.getElementById('bg-img-el');
-  const hasShadow = imgEl.classList.toggle('has-shadow');
-  btn.textContent = hasShadow ? '🌑 Shadow: ON' : '🌑 Shadow: OFF';
-  btn.classList.toggle('active-toggle', hasShadow);
 }
 
 function removeBgImg() {
   const imgEl = document.getElementById('bg-img-el');
   imgEl.style.display = 'none';
   imgEl.src = '';
-  imgEl.classList.remove('has-shadow');
   bgImgLoaded = false;
   document.getElementById('bg-img-controls').classList.remove('visible');
   document.getElementById('bg-img-scale-range').value = 100;
   document.getElementById('bg-img-scale-val').textContent = 100;
   document.getElementById('bg-opacity-range').value = 100;
   document.getElementById('bg-opacity-val').textContent = 100;
-  const shadowBtn = document.getElementById('bg-img-shadow-btn');
-  if (shadowBtn) { shadowBtn.textContent = '🌑 Shadow: ON'; shadowBtn.classList.add('active-toggle'); }
+  // Hide shadow overlay
+  document.getElementById('bg-img-shadow-overlay').classList.remove('visible');
+}
+
+/* ══════════════════════════════════════════
+   PREMIUM EDGE SHADOW — NEW
+══════════════════════════════════════════ */
+function updateEdgeShadowOverlay() {
+  const overlay = document.getElementById('bg-img-shadow-overlay');
+  if (bgImgLoaded && bgEdgeShadow) {
+    overlay.classList.add('visible');
+    applyShadowIntensity();
+  } else {
+    overlay.classList.remove('visible');
+  }
+}
+
+function toggleBgImgEdgeShadow() {
+  bgEdgeShadow = !bgEdgeShadow;
+  const tog = document.getElementById('bg-img-shadow-toggle');
+  tog.classList.toggle('on', bgEdgeShadow);
+  const wrap = document.getElementById('shadow-intensity-wrap');
+  wrap.classList.toggle('visible', bgEdgeShadow);
+  updateEdgeShadowOverlay();
+}
+
+function setShadowIntensity(v) {
+  shadowIntensity = +v;
+  document.getElementById('shadow-intensity-val').textContent = v;
+  applyShadowIntensity();
+}
+
+function applyShadowIntensity() {
+  const overlay = document.getElementById('bg-img-shadow-overlay');
+  const s = shadowIntensity / 100;
+  // Scale all rgba alpha values by the intensity
+  overlay.style.background = `
+    radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(0,0,0,${(0.65*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,${(0.65*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 0%   50%, rgba(0,0,0,${(0.55*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 100% 50%, rgba(0,0,0,${(0.55*s).toFixed(2)}) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 0%   0%,  rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 0%,  rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 0%   100%,rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 100% 100%,rgba(0,0,0,${(0.50*s).toFixed(2)}) 0%, transparent 65%)
+  `;
 }
 
 /* ══════════════════════════════════════════
@@ -1626,8 +1739,7 @@ async function downloadCard() {
   const btns = document.querySelectorAll('[id*="download-btn"]');
   btns.forEach(b => { b.disabled = true; b.textContent = '⏳ Generating…'; });
 
-  // hide UI-only elements
-  const hint = document.getElementById('text-drag-hint');
+  const hint  = document.getElementById('text-drag-hint');
   const guide = document.getElementById('guideline-45');
   const wzBar = document.getElementById('word-zoom-bar');
   const hintWas  = hint.style.display;
@@ -1637,7 +1749,6 @@ async function downloadCard() {
   guide.style.display = 'none';
   wzBar.style.display = 'none';
 
-  // Also remove word-span selection highlight temporarily
   document.querySelectorAll('.selected-word').forEach(el => el.classList.remove('selected-word'));
 
   const card  = document.getElementById('card');
@@ -1645,11 +1756,11 @@ async function downloadCard() {
 
   try {
     const canvas = await html2canvas(card, {
-      scale:            scale,
-      useCORS:          true,
-      allowTaint:       true,
-      backgroundColor:  null,
-      logging:          false,
+      scale:           scale,
+      useCORS:         true,
+      allowTaint:      true,
+      backgroundColor: null,
+      logging:         false,
     });
 
     const link = document.createElement('a');
@@ -1660,7 +1771,6 @@ async function downloadCard() {
     alert('Download failed: ' + err.message);
   }
 
-  // restore
   hint.style.display  = hintWas;
   guide.style.display = guideWas;
   wzBar.style.display = wzWas;
