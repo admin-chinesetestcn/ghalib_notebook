@@ -499,6 +499,64 @@ input[type="file"]   { display:none; }
 
 #shadow-intensity-wrap { display:none; margin-top:8px; }
 #shadow-intensity-wrap.visible { display:block; }
+
+/* ═══ PIP / STICKER IMAGE ═══ */
+#pip-img-el {
+  position:absolute;
+  top:60px; left:60px;
+  width:auto; height:auto;
+  min-width:40px; min-height:40px;
+  z-index:15;
+  cursor:grab;
+  touch-action:none;
+  display:none;
+  user-select:none;
+  -webkit-user-drag:none;
+  transform-origin:top left;
+  border-radius:0px;
+  transition:box-shadow .2s;
+}
+#pip-img-el:active { cursor:grabbing; }
+#pip-img-el.dragging { cursor:grabbing; }
+#pip-img-el.pip-selected {
+  outline:2px dashed rgba(100,180,255,.7);
+  outline-offset:3px;
+}
+
+/* pip controls panel section */
+#pip-img-section {
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid #222;
+}
+#pip-img-controls {
+  display:none; flex-direction:column; gap:8px; margin-top:10px;
+  background:#111; border:1px solid #222; border-radius:10px; padding:12px;
+}
+#pip-img-controls.visible { display:flex; }
+.pip-img-hint {
+  font-size:10px; color:#555; line-height:1.6;
+  background:#0e0e0e; border:1px solid #1e1e1e; border-radius:7px;
+  padding:8px 10px;
+}
+.pip-img-hint b { color:#777; }
+.pip-corner-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
+.pip-corner-btn {
+  flex:1; min-width:60px; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:7px;
+  color:#666; font-size:10px; font-weight:700; padding:6px 4px;
+  cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.pip-corner-btn:hover { border-color:#888; color:#eee; background:#222; }
+.pip-shape-row { display:flex; gap:5px; margin-top:4px; }
+.pip-shape-btn {
+  flex:1; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:7px;
+  color:#666; font-size:10px; font-weight:700; padding:6px 4px;
+  cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.pip-shape-btn:hover { border-color:#888; color:#eee; }
+.pip-shape-btn.active { border-color:#bbb; background:#1c1c1c; color:#fff; }
 </style>
 </head>
 <body>
@@ -538,6 +596,9 @@ input[type="file"]   { display:none; }
 
         <!-- Premium all-edges shadow overlay for bg image -->
         <div id="bg-img-shadow-overlay"></div>
+
+        <!-- PIP / STICKER IMAGE — sits above bg, below text -->
+        <img id="pip-img-el" src="" alt="" draggable="false">
 
         <!-- Notebook background layer -->
         <div id="notebook-layer"></div>
@@ -995,6 +1056,59 @@ input[type="file"]   { display:none; }
         <!-- Overlay — always visible -->
         <label style="margin-top:12px;">Dark Overlay — <span class="val" id="overlay-val">0</span>%</label>
         <input type="range" min="0" max="90" value="0" id="overlay-range" oninput="setOverlay(this.value)">
+
+        <!-- ═══ PIP / STICKER IMAGE SECTION ═══ -->
+        <div id="pip-img-section">
+          <label style="margin-top:0;">📌 Sticker / PiP Image</label>
+          <p class="panel-desc" style="font-size:10px;color:#555;margin:4px 0 6px;">Upload a second image (logo, sticker, face, etc.) and place it anywhere on the card.</p>
+          <label class="upload-btn" for="pip-img-input">🖼️ Upload Sticker Image (PNG / JPG / WebP)</label>
+          <input type="file" id="pip-img-input" accept="image/*" onchange="loadPipImage(this)">
+
+          <div id="pip-img-controls">
+            <div class="pip-img-hint">
+              <b>🖱 Drag</b> the sticker directly on the card to reposition.<br>
+              Use sliders below to resize &amp; adjust opacity.
+            </div>
+
+            <label style="margin-top:4px;">Sticker Scale — <span class="val" id="pip-scale-val">100</span>%</label>
+            <input type="range" min="5" max="400" value="100" id="pip-scale-range" oninput="setPipScale(this.value)">
+
+            <label>Sticker Opacity — <span class="val" id="pip-opacity-val">100</span>%</label>
+            <input type="range" min="0" max="100" value="100" id="pip-opacity-range" oninput="setPipOpacity(this.value)">
+
+            <label>Corner Radius — <span class="val" id="pip-radius-val">0</span>px</label>
+            <input type="range" min="0" max="200" value="0" id="pip-radius-range" oninput="setPipRadius(this.value)">
+
+            <label>Shape Preset</label>
+            <div class="pip-shape-row">
+              <button class="pip-shape-btn active" onclick="setPipShape('rect',this)">■ Rectangle</button>
+              <button class="pip-shape-btn" onclick="setPipShape('rounded',this)">▢ Rounded</button>
+              <button class="pip-shape-btn" onclick="setPipShape('circle',this)">● Circle</button>
+            </div>
+
+            <label style="margin-top:8px;">Quick Position</label>
+            <div class="pip-corner-row">
+              <button class="pip-corner-btn" onclick="setPipPos('top-left')">↖ Top L</button>
+              <button class="pip-corner-btn" onclick="setPipPos('top-center')">↑ Top Ctr</button>
+              <button class="pip-corner-btn" onclick="setPipPos('top-right')">↗ Top R</button>
+            </div>
+            <div class="pip-corner-row" style="margin-top:4px;">
+              <button class="pip-corner-btn" onclick="setPipPos('mid-left')">← Mid L</button>
+              <button class="pip-corner-btn" onclick="setPipPos('mid-center')">· Center</button>
+              <button class="pip-corner-btn" onclick="setPipPos('mid-right')">→ Mid R</button>
+            </div>
+            <div class="pip-corner-row" style="margin-top:4px;">
+              <button class="pip-corner-btn" onclick="setPipPos('bot-left')">↙ Bot L</button>
+              <button class="pip-corner-btn" onclick="setPipPos('bot-center')">↓ Bot Ctr</button>
+              <button class="pip-corner-btn" onclick="setPipPos('bot-right')">↘ Bot R</button>
+            </div>
+
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <button class="bg-img-action-btn" onclick="fitPipImg()">⤢ Fit to Card</button>
+              <button class="bg-img-action-btn danger" onclick="removePipImg()">✕ Remove</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1363,6 +1477,7 @@ function initDrag() {
   const chip     = document.getElementById('profile-chip');
   const shayDisp = document.getElementById('shayari-display');
   const bgImg    = document.getElementById('bg-img-el');
+  const pipImg   = document.getElementById('pip-img-el');
 
   function onDown(e, target) {
     if (e.button !== undefined && e.button !== 0) return;
@@ -1388,6 +1503,10 @@ function initDrag() {
       dragOffX = cx - bgImg.getBoundingClientRect().left;
       dragOffY = cy - bgImg.getBoundingClientRect().top;
       bgImg.classList.add('dragging');
+    } else if (target === 'pipimg') {
+      dragOffX = cx - pipImg.getBoundingClientRect().left;
+      dragOffY = cy - pipImg.getBoundingClientRect().top;
+      pipImg.classList.add('dragging');
     }
   }
 
@@ -1420,12 +1539,18 @@ function initDrag() {
       bgImgX = cx - cardRect.left - dragOffX;
       bgImgY = cy - cardRect.top  - dragOffY;
       applyBgImgTransform();
+
+    } else if (activeDrag === 'pipimg') {
+      pipImgX = cx - cardRect.left - dragOffX;
+      pipImgY = cy - cardRect.top  - dragOffY;
+      applyPipImgTransform();
     }
   }
 
   function onUp() {
     if (activeDrag === 'text') shayDisp.classList.remove('dragging');
     if (activeDrag === 'bgimg') bgImg.classList.remove('dragging');
+    if (activeDrag === 'pipimg') pipImg.classList.remove('dragging');
     activeDrag = null;
   }
 
@@ -1436,6 +1561,10 @@ function initDrag() {
   bgImg.addEventListener('pointerdown', e => {
     e.stopPropagation();
     onDown(e, 'bgimg');
+  });
+  pipImg.addEventListener('pointerdown', e => {
+    e.stopPropagation();
+    onDown(e, 'pipimg');
   });
 
   window.addEventListener('pointermove', onMove);
@@ -2162,6 +2291,8 @@ async function downloadCard() {
   hint.style.display  = 'none';
   guide.style.display = 'none';
   wzBar.style.display = 'none';
+  // Remove pip selection highlight for clean export
+  document.getElementById('pip-img-el').classList.remove('pip-selected');
 
   document.querySelectorAll('.selected-word').forEach(el => el.classList.remove('selected-word'));
 
@@ -2194,6 +2325,152 @@ async function downloadCard() {
   }
 
   btns.forEach(b => { b.disabled = false; b.textContent = '⬇ Download Image'; });
+}
+
+/* ══════════════════════════════════════════
+   PIP / STICKER IMAGE
+══════════════════════════════════════════ */
+let pipImgScale   = 100;
+let pipImgX       = 60;
+let pipImgY       = 60;
+let pipImgLoaded  = false;
+let pipImgNatW    = 0;
+let pipImgNatH    = 0;
+let pipRadius     = 0;
+
+function loadPipImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  const imgEl = document.getElementById('pip-img-el');
+
+  imgEl.onload = () => {
+    pipImgNatW   = imgEl.naturalWidth;
+    pipImgNatH   = imgEl.naturalHeight;
+    pipImgLoaded = true;
+
+    // Default size: 30% of card width
+    const card = document.getElementById('card');
+    const cw   = parseInt(card.style.width);
+    pipImgScale = (cw * 0.30 / pipImgNatW) * 100;
+    document.getElementById('pip-scale-range').value = Math.min(400, Math.round(pipImgScale));
+    document.getElementById('pip-scale-val').textContent = Math.round(pipImgScale);
+
+    // Place at top-right by default
+    const scale = pipImgScale / 100;
+    const ch    = parseInt(card.style.height);
+    pipImgX = cw - (pipImgNatW * scale) - 22;
+    pipImgY = 22;
+
+    applyPipImgTransform();
+    document.getElementById('pip-img-controls').classList.add('visible');
+    imgEl.style.display = 'block';
+  };
+  imgEl.src = url;
+  input.value = '';
+}
+
+function applyPipImgTransform() {
+  const imgEl = document.getElementById('pip-img-el');
+  const scale = pipImgScale / 100;
+  imgEl.style.width        = (pipImgNatW * scale) + 'px';
+  imgEl.style.height       = (pipImgNatH * scale) + 'px';
+  imgEl.style.left         = pipImgX + 'px';
+  imgEl.style.top          = pipImgY + 'px';
+  imgEl.style.borderRadius = pipRadius + 'px';
+}
+
+function setPipScale(v) {
+  pipImgScale = +v;
+  document.getElementById('pip-scale-val').textContent = v;
+  applyPipImgTransform();
+}
+
+function setPipOpacity(v) {
+  document.getElementById('pip-opacity-val').textContent = v;
+  document.getElementById('pip-img-el').style.opacity = v / 100;
+}
+
+function setPipRadius(v) {
+  pipRadius = +v;
+  document.getElementById('pip-radius-val').textContent = v;
+  applyPipImgTransform();
+}
+
+function setPipShape(shape, btn) {
+  document.querySelectorAll('.pip-shape-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const card   = document.getElementById('card');
+  const slider = document.getElementById('pip-radius-range');
+  if (shape === 'rect') {
+    pipRadius = 0;
+  } else if (shape === 'rounded') {
+    // ~20% of shorter side
+    const scale = pipImgScale / 100;
+    const shortSide = Math.min(pipImgNatW * scale, pipImgNatH * scale);
+    pipRadius = Math.round(shortSide * 0.18);
+  } else if (shape === 'circle') {
+    const scale = pipImgScale / 100;
+    const shortSide = Math.min(pipImgNatW * scale, pipImgNatH * scale);
+    pipRadius = Math.round(shortSide / 2);
+  }
+  slider.value = Math.min(200, pipRadius);
+  document.getElementById('pip-radius-val').textContent = Math.min(200, pipRadius);
+  applyPipImgTransform();
+}
+
+function setPipPos(pos) {
+  if (!pipImgLoaded) return;
+  const card   = document.getElementById('card');
+  const cw     = parseInt(card.style.width);
+  const ch     = parseInt(card.style.height);
+  const scale  = pipImgScale / 100;
+  const pw     = pipImgNatW * scale;
+  const ph     = pipImgNatH * scale;
+  const pad    = 22;
+  const map    = {
+    'top-left':   [pad,          pad],
+    'top-center': [(cw - pw) / 2, pad],
+    'top-right':  [cw - pw - pad, pad],
+    'mid-left':   [pad,           (ch - ph) / 2],
+    'mid-center': [(cw - pw) / 2, (ch - ph) / 2],
+    'mid-right':  [cw - pw - pad, (ch - ph) / 2],
+    'bot-left':   [pad,           ch - ph - pad],
+    'bot-center': [(cw - pw) / 2, ch - ph - pad],
+    'bot-right':  [cw - pw - pad, ch - ph - pad],
+  };
+  [pipImgX, pipImgY] = map[pos];
+  applyPipImgTransform();
+}
+
+function fitPipImg() {
+  if (!pipImgLoaded) return;
+  const card   = document.getElementById('card');
+  const cw     = parseInt(card.style.width);
+  const ch     = parseInt(card.style.height);
+  const scaleW = cw / pipImgNatW;
+  const scaleH = ch / pipImgNatH;
+  pipImgScale  = Math.min(scaleW, scaleH) * 100;
+  document.getElementById('pip-scale-range').value = Math.min(400, Math.round(pipImgScale));
+  document.getElementById('pip-scale-val').textContent = Math.round(pipImgScale);
+  const scale  = pipImgScale / 100;
+  pipImgX = (cw - pipImgNatW * scale) / 2;
+  pipImgY = (ch - pipImgNatH * scale) / 2;
+  applyPipImgTransform();
+}
+
+function removePipImg() {
+  const imgEl = document.getElementById('pip-img-el');
+  imgEl.style.display = 'none';
+  imgEl.src = '';
+  pipImgLoaded = false;
+  document.getElementById('pip-img-controls').classList.remove('visible');
+  document.getElementById('pip-scale-range').value = 100;
+  document.getElementById('pip-scale-val').textContent = 100;
+  document.getElementById('pip-opacity-range').value = 100;
+  document.getElementById('pip-opacity-val').textContent = 100;
+  document.getElementById('pip-radius-range').value = 0;
+  document.getElementById('pip-radius-val').textContent = 0;
 }
 </script>
 </body>
