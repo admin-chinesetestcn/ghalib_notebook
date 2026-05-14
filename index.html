@@ -60,15 +60,11 @@ body {
 }
 #bg-img-el:active { cursor:grabbing; }
 #bg-img-el.dragging { cursor:grabbing; }
+#bg-img-el.locked { cursor:default !important; }
 
-/* ═══ BG IMAGE SHADOW OVERLAY — all-edges premium vignette ═══ */
+/* ═══ BG IMAGE SHADOW OVERLAY ═══ */
 #bg-img-shadow-overlay {
-  position:absolute;
-  inset:0;
-  z-index:3;
-  pointer-events:none;
-  display:none;
-  /* Multi-stop radial vignette from all edges inward */
+  position:absolute; inset:0; z-index:3; pointer-events:none; display:none;
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(0,0,0,0.55) 0%, transparent 70%),
     radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,0.55) 0%, transparent 70%),
@@ -82,15 +78,10 @@ body {
 #bg-img-shadow-overlay.visible { display:block; }
 
 /* ═══ NOTEBOOK LAYER ═══ */
-#notebook-layer {
-  position:absolute; inset:0; z-index:1; pointer-events:none; display:none;
-}
+#notebook-layer { position:absolute; inset:0; z-index:1; pointer-events:none; display:none; }
 #notebook-layer.visible { display:block; }
 
-/* notebook template picker */
-.notebook-grid {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:6px;
-}
+.notebook-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:6px; }
 .nb-card {
   border:2px solid #2a2a2a; border-radius:9px; padding:0;
   cursor:pointer; overflow:hidden; transition:border-color .2s,transform .15s;
@@ -105,14 +96,7 @@ body {
   color:#888; pointer-events:none; padding-bottom:2px;
 }
 .nb-card.active .nb-label { color:#d4a84b; }
-
-.nb-section-title {
-  font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
-  color:#555; margin:14px 0 6px; display:block;
-}
-.nb-controls { margin-top:10px; }
-#nb-paper-color-wrap { display:none; margin-top:8px; }
-#nb-paper-color-wrap.visible { display:block; }
+.nb-section-title { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#555; margin:14px 0 6px; display:block; }
 
 /* ═══ GUIDELINE ═══ */
 #guideline-45 {
@@ -134,14 +118,8 @@ body {
 }
 #guideline-toggle-wrap:hover { border-color:#555; }
 #guideline-toggle-wrap.active { border-color:#ff5050; background:#1e1414; }
-#guideline-toggle-switch {
-  width:36px; height:20px; border-radius:10px; background:#333;
-  position:relative; flex-shrink:0; transition:background .2s;
-}
-#guideline-toggle-switch::after {
-  content:''; position:absolute; width:14px; height:14px; border-radius:50%;
-  background:#fff; top:3px; left:3px; transition:left .2s;
-}
+#guideline-toggle-switch { width:36px; height:20px; border-radius:10px; background:#333; position:relative; flex-shrink:0; transition:background .2s; }
+#guideline-toggle-switch::after { content:''; position:absolute; width:14px; height:14px; border-radius:50%; background:#fff; top:3px; left:3px; transition:left .2s; }
 #guideline-toggle-wrap.active #guideline-toggle-switch { background:#ff5050; }
 #guideline-toggle-wrap.active #guideline-toggle-switch::after { left:19px; }
 #guideline-toggle-label { font-size:12px; font-weight:700; color:#777; flex:1; }
@@ -151,8 +129,7 @@ body {
 /* ═══ PROFILE CHIP ═══ */
 #profile-chip {
   position:absolute; top:22px; left:22px;
-  display:flex; align-items:center; gap:10px;
-  z-index:20; cursor:grab; touch-action:none;
+  display:flex; align-items:center; gap:10px; z-index:20; cursor:grab; touch-action:none;
 }
 #profile-chip:active { cursor:grabbing; }
 #avatar-wrap { position:relative; width:46px; height:46px; flex-shrink:0; }
@@ -169,66 +146,35 @@ body {
   position:absolute; bottom:-2px; right:-4px; width:18px; height:18px; z-index:25;
   filter:drop-shadow(0 1px 3px rgba(0,0,0,.3)); display:block; pointer-events:none;
 }
-#profile-name-display {
-  font-family:'Hind',sans-serif; font-weight:700; font-style:italic;
-  font-size:14px; color:#111; line-height:1.3; white-space:nowrap;
-}
-#profile-handle-display {
-  font-family:'Hind',sans-serif; font-weight:400;
-  font-size:12px; color:#555; line-height:1.3; white-space:nowrap;
-}
+#profile-name-display { font-family:'Hind',sans-serif; font-weight:700; font-style:italic; font-size:14px; color:#111; line-height:1.3; white-space:nowrap; }
+#profile-handle-display { font-family:'Hind',sans-serif; font-weight:400; font-size:12px; color:#555; line-height:1.3; white-space:nowrap; }
 
 /* ═══ SHAYARI TEXT ═══ */
-#shayari-display {
-  position:absolute; top:100px; left:36px; right:36px;
-  z-index:9; touch-action:none;
-}
-#shayari-text {
-  font-family:'Hind',sans-serif; font-weight:700;
-  font-size:17px; line-height:1.3; color:#111;
-  text-align:left; width:100%;
-  pointer-events:auto;
-}
+#shayari-display { position:absolute; top:100px; left:36px; right:36px; z-index:9; touch-action:none; }
+#shayari-text { font-family:'Hind',sans-serif; font-weight:700; font-size:17px; line-height:1.3; color:#111; text-align:left; width:100%; pointer-events:auto; }
 #shayari-text .line-span { display:block; text-align:inherit; }
-#shayari-text .word-span {
-  display:inline; border-radius:2px;
-  cursor:pointer;
-  transition:background .1s;
-}
+#shayari-text .word-span { display:inline; border-radius:2px; cursor:pointer; transition:background .1s; }
 #shayari-text .word-span:hover { background:rgba(100,180,255,.10); border-radius:2px; }
-#shayari-text .word-span.selected-word {
-  outline:2px solid rgba(100,180,255,.85);
-  background:rgba(100,180,255,.18); border-radius:3px;
-}
+#shayari-text .word-span.selected-word { outline:2px solid rgba(100,180,255,.85); background:rgba(100,180,255,.18); border-radius:3px; }
 #shayari-display.dragging { cursor:grabbing; }
 
 .line-separator {
-  display: block;
-  width: 60%;
-  margin: 0 auto;
-  border: none;
-  height: var(--sep-thickness, 1px);
-  background: var(--sep-color, currentColor);
-  opacity: var(--sep-opacity, 0.35);
-  pointer-events: none;
+  display: block; width: 60%; margin: 0 auto; border: none;
+  height: var(--sep-thickness, 1px); background: var(--sep-color, currentColor);
+  opacity: var(--sep-opacity, 0.35); pointer-events: none;
 }
 
 #text-drag-hint {
   position:absolute; bottom:-18px; left:50%; transform:translateX(-50%);
-  font-size:9px; color:rgba(0,0,0,.25);
-  pointer-events:none; white-space:nowrap; letter-spacing:.5px;
+  font-size:9px; color:rgba(0,0,0,.25); pointer-events:none; white-space:nowrap; letter-spacing:.5px;
 }
 
 /* ═══ WORD ZOOM BAR ═══ */
 #word-zoom-bar {
-  position:absolute; z-index:500;
-  display:none; flex-direction:column; align-items:stretch; gap:0;
+  position:absolute; z-index:500; display:none; flex-direction:column; align-items:stretch; gap:0;
   background:rgba(8,8,8,.97); border:1px solid #555; border-radius:14px;
   padding:9px 11px; white-space:nowrap; min-width:240px;
-  box-shadow:0 8px 28px rgba(0,0,0,.75);
-  transform:translateX(-50%);
-  /* Prevent pointer events from leaking to card */
-  pointer-events:auto;
+  box-shadow:0 8px 28px rgba(0,0,0,.75); transform:translateX(-50%); pointer-events:auto;
 }
 #word-zoom-bar .wz-row1 { display:flex; align-items:center; gap:5px; margin-bottom:8px; }
 #word-zoom-bar .wz-row2 { display:flex; align-items:center; }
@@ -236,27 +182,15 @@ body {
   background:#2a2a2a; border:1px solid #666; color:#fff;
   border-radius:50%; width:26px; height:26px; font-size:17px; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
-  transition:background .15s; flex-shrink:0; line-height:1;
-  /* Make sure these don't bubble up */
-  user-select:none;
+  transition:background .15s; flex-shrink:0; line-height:1; user-select:none;
 }
 #word-zoom-bar .wz-btn:hover { background:#444; }
 #word-zoom-bar .wz-size { font-size:12px; color:#ccc; min-width:38px; text-align:center; }
 #word-zoom-bar .wz-divider { width:1px; height:18px; background:#333; margin:0 4px; flex-shrink:0; }
-#word-zoom-bar .wz-color-wrap {
-  position:relative; width:26px; height:26px; border-radius:50%;
-  border:2px solid #666; overflow:hidden; cursor:pointer; flex-shrink:0; margin-left:4px;
-}
+#word-zoom-bar .wz-color-wrap { position:relative; width:26px; height:26px; border-radius:50%; border:2px solid #666; overflow:hidden; cursor:pointer; flex-shrink:0; margin-left:4px; }
 #word-zoom-bar .wz-color-swatch { position:absolute; inset:0; border-radius:50%; background:#111; pointer-events:none; }
-#word-zoom-bar .wz-color-wrap input[type="color"] {
-  position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px);
-  opacity:0; cursor:pointer; border:none; padding:0;
-}
-#word-zoom-bar .wz-reset {
-  font-size:10px; color:#777; cursor:pointer; padding:0 8px;
-  background:none; border:none; border-left:1px solid #333; margin-left:auto;
-  font-family:'Hind',sans-serif; transition:color .15s;
-}
+#word-zoom-bar .wz-color-wrap input[type="color"] { position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); opacity:0; cursor:pointer; border:none; padding:0; }
+#word-zoom-bar .wz-reset { font-size:10px; color:#777; cursor:pointer; padding:0 8px; background:none; border:none; border-left:1px solid #333; margin-left:auto; font-family:'Hind',sans-serif; transition:color .15s; }
 #word-zoom-bar .wz-reset:hover { color:#eee; }
 #wz-font-label { font-size:10px; color:#555; margin-right:6px; white-space:nowrap; flex-shrink:0; }
 #wz-font-select {
@@ -272,8 +206,7 @@ body {
 #watermark {
   position:absolute; bottom:20px; left:0; right:0;
   text-align:center; font-family:'Hind',sans-serif;
-  font-size:11px; color:rgba(0,0,0,.28);
-  letter-spacing:1px; z-index:10; pointer-events:none;
+  font-size:11px; color:rgba(0,0,0,.28); letter-spacing:1px; z-index:10; pointer-events:none;
 }
 
 /* ═══ SIZE SELECTOR ═══ */
@@ -306,10 +239,7 @@ body {
 
 /* ═══ COLLAPSIBLE PANEL ═══ */
 .panel { background:#1a1a1a; border:1px solid #262626; border-radius:14px; overflow:hidden; }
-.panel-header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 16px; cursor:pointer; transition:background .2s; user-select:none;
-}
+.panel-header { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; cursor:pointer; transition:background .2s; user-select:none; }
 .panel-header:hover { background:#1f1f1f; }
 .panel-header-left { display:flex; align-items:center; gap:9px; }
 .panel-header-icon { font-size:14px; }
@@ -343,8 +273,8 @@ textarea {
 }
 textarea:focus { border-color:#888; }
 input[type="range"] { width:100%; accent-color:#ccc; cursor:pointer; }
-input[type="color"]  { width:38px; height:30px; border:none; border-radius:6px; background:none; cursor:pointer; padding:0; }
-input[type="file"]   { display:none; }
+input[type="color"] { width:38px; height:30px; border:none; border-radius:6px; background:none; cursor:pointer; padding:0; }
+input[type="file"]  { display:none; }
 .val { background:#222; border-radius:4px; padding:2px 7px; font-size:11px; color:#bbb; min-width:36px; text-align:center; display:inline-block; }
 .color-row { display:flex; align-items:center; gap:10px; margin-top:4px; }
 .color-row span { font-size:11px; color:#555; }
@@ -357,11 +287,7 @@ input[type="file"]   { display:none; }
 
 /* ═══ FONT GRID ═══ */
 .font-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
-.font-card {
-  background:#111; border:2px solid #2a2a2a; border-radius:8px;
-  padding:8px 6px 6px; cursor:pointer; text-align:center;
-  transition:border-color .2s,background .2s;
-}
+.font-card { background:#111; border:2px solid #2a2a2a; border-radius:8px; padding:8px 6px 6px; cursor:pointer; text-align:center; transition:border-color .2s,background .2s; }
 .font-card:hover { border-color:#555; background:#161616; }
 .font-card.active { border-color:#bbb; background:#1c1c1c; }
 .font-card .fp { font-size:16px; color:#fff; line-height:1.5; margin-bottom:2px; }
@@ -379,28 +305,18 @@ input[type="file"]   { display:none; }
 
 /* ═══ BG SWATCHES ═══ */
 .bg-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
-.bg-swatch {
-  width:36px; height:36px; border-radius:7px; cursor:pointer;
-  border:2px solid transparent; transition:border .2s,transform .15s;
-}
+.bg-swatch { width:36px; height:36px; border-radius:7px; cursor:pointer; border:2px solid transparent; transition:border .2s,transform .15s; }
 .bg-swatch:hover { transform:scale(1.1); }
 .bg-swatch.active { border-color:#fff; }
 
 /* ═══ BG IMAGE CONTROLS ═══ */
-#bg-img-controls {
-  display:none; flex-direction:column; gap:8px; margin-top:10px;
-  background:#111; border:1px solid #222; border-radius:10px; padding:12px;
-}
+#bg-img-controls { display:none; flex-direction:column; gap:8px; margin-top:10px; background:#111; border:1px solid #222; border-radius:10px; padding:12px; }
 #bg-img-controls.visible { display:flex; }
-.bg-img-hint {
-  font-size:10px; color:#555; line-height:1.6;
-  background:#0e0e0e; border:1px solid #1e1e1e; border-radius:7px;
-  padding:8px 10px;
-}
+.bg-img-hint { font-size:10px; color:#555; line-height:1.6; background:#0e0e0e; border:1px solid #1e1e1e; border-radius:7px; padding:8px 10px; }
 .bg-img-hint b { color:#777; }
-.bg-img-btn-row { display:flex; gap:6px; margin-top:4px; }
+.bg-img-btn-row { display:flex; gap:6px; margin-top:4px; flex-wrap:wrap; }
 .bg-img-action-btn {
-  flex:1; background:#1a1a1a; border:1px solid #333; border-radius:8px;
+  flex:1; min-width:60px; background:#1a1a1a; border:1px solid #333; border-radius:8px;
   color:#888; font-size:11px; font-weight:700; padding:7px 4px;
   cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
   transition:border-color .2s, color .2s;
@@ -410,12 +326,30 @@ input[type="file"]   { display:none; }
 .bg-img-action-btn.danger:hover { border-color:#c05050; color:#ff7070; }
 .bg-img-action-btn.active-toggle { border-color:#888; color:#ccc; background:#1c1c1c; }
 
+/* ═══ LOCK POSITION TOGGLE ═══ */
+#bg-lock-toggle.on  { border-color:#f0a030; background:#1a1400; }
+#bg-lock-toggle.on .toggle-label { color:#f0c060; }
+#bg-lock-toggle.on .tog-switch { background:#e09020; }
+#pip-lock-toggle.on { border-color:#f0a030; background:#1a1400; }
+#pip-lock-toggle.on .toggle-label { color:#f0c060; }
+#pip-lock-toggle.on .tog-switch { background:#e09020; }
+
+/* ═══ DARK BG TEXT PRESETS ═══ */
+.text-preset-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:5px; margin-top:6px;
+}
+.text-preset-btn {
+  border-radius:8px; height:32px; cursor:pointer;
+  border:2px solid transparent; transition:border-color .2s,transform .15s;
+  font-size:9px; font-weight:700; letter-spacing:.3px;
+  display:flex; align-items:center; justify-content:center;
+}
+.text-preset-btn:hover { transform:scale(1.06); border-color:rgba(255,255,255,.4); }
+.text-preset-btn.active { border-color:#fff; }
+
 /* ═══ PER-LINE EDITOR ═══ */
 #line-editor-list { display:flex; flex-direction:column; gap:7px; padding-right:2px; }
-.line-row {
-  background:#111; border:1px solid #222; border-radius:9px;
-  padding:9px 11px; display:flex; flex-direction:column; gap:7px; transition:border-color .2s;
-}
+.line-row { background:#111; border:1px solid #222; border-radius:9px; padding:9px 11px; display:flex; flex-direction:column; gap:7px; transition:border-color .2s; }
 .line-row:hover { border-color:#333; }
 .line-row.has-override { border-color:#555; background:#181414; }
 .line-row-top { display:flex; align-items:center; gap:7px; }
@@ -424,32 +358,20 @@ input[type="file"]   { display:none; }
 .line-color-wrap { position:relative; width:26px; height:26px; border-radius:50%; border:2px solid #2a2a2a; flex-shrink:0; overflow:hidden; cursor:pointer; }
 .line-color-swatch { position:absolute; inset:0; border-radius:50%; pointer-events:none; }
 .line-color-wrap input[type="color"] { position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); opacity:0; cursor:pointer; }
-.reset-line-btn {
-  background:transparent; border:1px solid #2a2a2a; border-radius:5px;
-  color:#444; font-size:10px; padding:2px 6px; cursor:pointer;
-  font-family:'Hind',sans-serif; transition:color .2s,border-color .2s; white-space:nowrap; flex-shrink:0;
-}
+.reset-line-btn { background:transparent; border:1px solid #2a2a2a; border-radius:5px; color:#444; font-size:10px; padding:2px 6px; cursor:pointer; font-family:'Hind',sans-serif; transition:color .2s,border-color .2s; white-space:nowrap; flex-shrink:0; }
 .reset-line-btn:hover { color:#ccc; border-color:#777; }
 .line-row-bottom { display:flex; align-items:center; gap:7px; }
 .line-size-label { font-size:10px; color:#444; white-space:nowrap; flex-shrink:0; }
 .line-size-range { flex:1; }
 .line-size-val { font-size:10px; color:#777; min-width:30px; text-align:right; flex-shrink:0; }
 
-/* ═══ WORD ZOOM INFO BOX ═══ */
-.word-zoom-info {
-  background:#0e0e0e; border:1px solid #222; border-radius:8px;
-  padding:10px 12px; font-size:11px; color:#555; line-height:1.7; margin-bottom:8px;
-}
+/* ═══ WORD ZOOM INFO ═══ */
+.word-zoom-info { background:#0e0e0e; border:1px solid #222; border-radius:8px; padding:10px 12px; font-size:11px; color:#555; line-height:1.7; margin-bottom:8px; }
 .word-zoom-info b { color:#888; }
 
 /* ═══ POS GRID ═══ */
 .pos-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:7px; }
-.pos-btn {
-  background:#111; border:1px solid #222; border-radius:7px;
-  color:#666; font-size:11px; padding:7px 2px; cursor:pointer;
-  font-family:'Hind',sans-serif; text-align:center;
-  transition:color .2s,border-color .2s,background .2s;
-}
+.pos-btn { background:#111; border:1px solid #222; border-radius:7px; color:#666; font-size:11px; padding:7px 2px; cursor:pointer; font-family:'Hind',sans-serif; text-align:center; transition:color .2s,border-color .2s,background .2s; }
 .pos-btn:hover { color:#eee; border-color:#555; background:#181818; }
 .chip-pos-display { font-size:10px; color:#383838; text-align:center; margin-top:7px; }
 .slider-row { display:flex; align-items:center; gap:7px; }
@@ -465,14 +387,8 @@ input[type="file"]   { display:none; }
 .toggle-row.on { border-color:#888; background:#191919; }
 .toggle-label { font-size:12px; color:#777; font-weight:700; }
 .toggle-row.on .toggle-label { color:#ccc; }
-.tog-switch {
-  width:34px; height:19px; border-radius:10px; background:#333;
-  position:relative; flex-shrink:0; transition:background .2s;
-}
-.tog-switch::after {
-  content:''; position:absolute; width:13px; height:13px; border-radius:50%;
-  background:#fff; top:3px; left:3px; transition:left .2s;
-}
+.tog-switch { width:34px; height:19px; border-radius:10px; background:#333; position:relative; flex-shrink:0; transition:background .2s; }
+.tog-switch::after { content:''; position:absolute; width:13px; height:13px; border-radius:50%; background:#fff; top:3px; left:3px; transition:left .2s; }
 .toggle-row.on .tog-switch { background:#888; }
 .toggle-row.on .tog-switch::after { left:18px; }
 
@@ -481,80 +397,38 @@ input[type="file"]   { display:none; }
 #badge-toggle.on .tog-switch { background:#1d9bf0; }
 
 .badge-size-row { display:flex; gap:5px; margin-top:8px; }
-.badge-size-btn {
-  flex:1; background:#111; border:1px solid #2a2a2a; border-radius:7px;
-  color:#666; font-size:10px; font-weight:700; padding:6px 4px;
-  cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
-  transition:border-color .2s,color .2s,background .2s;
-}
+.badge-size-btn { flex:1; background:#111; border:1px solid #2a2a2a; border-radius:7px; color:#666; font-size:10px; font-weight:700; padding:6px 4px; cursor:pointer; text-align:center; font-family:'Hind',sans-serif; transition:border-color .2s,color .2s,background .2s; }
 .badge-size-btn:hover { border-color:#1d9bf0; color:#5bc0f8; }
 .badge-size-btn.active { border-color:#1d9bf0; background:#0d1520; color:#5bc0f8; }
 
-#wm-vis-toggle.on { border-color:#bbb; background:#191919; }
-
-/* ═══ BG SHADOW INTENSITY TOGGLE ═══ */
 #bg-img-shadow-toggle.on { border-color:#c8a84b; background:#151209; }
 #bg-img-shadow-toggle.on .toggle-label { color:#e0c060; }
 #bg-img-shadow-toggle.on .tog-switch { background:#c8a84b; }
-
 #shadow-intensity-wrap { display:none; margin-top:8px; }
 #shadow-intensity-wrap.visible { display:block; }
 
 /* ═══ PIP / STICKER IMAGE ═══ */
 #pip-img-el {
-  position:absolute;
-  top:60px; left:60px;
-  width:auto; height:auto;
-  min-width:40px; min-height:40px;
-  z-index:15;
-  cursor:grab;
-  touch-action:none;
-  display:none;
-  user-select:none;
-  -webkit-user-drag:none;
-  transform-origin:top left;
-  border-radius:0px;
-  transition:box-shadow .2s;
+  position:absolute; top:60px; left:60px; width:auto; height:auto;
+  min-width:40px; min-height:40px; z-index:15; cursor:grab; touch-action:none;
+  display:none; user-select:none; -webkit-user-drag:none; transform-origin:top left;
+  border-radius:0px; transition:box-shadow .2s;
 }
 #pip-img-el:active { cursor:grabbing; }
 #pip-img-el.dragging { cursor:grabbing; }
-#pip-img-el.pip-selected {
-  outline:2px dashed rgba(100,180,255,.7);
-  outline-offset:3px;
-}
+#pip-img-el.locked { cursor:default !important; }
+#pip-img-el.pip-selected { outline:2px dashed rgba(100,180,255,.7); outline-offset:3px; }
 
-/* pip controls panel section */
-#pip-img-section {
-  margin-top:16px;
-  padding-top:14px;
-  border-top:1px solid #222;
-}
-#pip-img-controls {
-  display:none; flex-direction:column; gap:8px; margin-top:10px;
-  background:#111; border:1px solid #222; border-radius:10px; padding:12px;
-}
+#pip-img-section { margin-top:16px; padding-top:14px; border-top:1px solid #222; }
+#pip-img-controls { display:none; flex-direction:column; gap:8px; margin-top:10px; background:#111; border:1px solid #222; border-radius:10px; padding:12px; }
 #pip-img-controls.visible { display:flex; }
-.pip-img-hint {
-  font-size:10px; color:#555; line-height:1.6;
-  background:#0e0e0e; border:1px solid #1e1e1e; border-radius:7px;
-  padding:8px 10px;
-}
+.pip-img-hint { font-size:10px; color:#555; line-height:1.6; background:#0e0e0e; border:1px solid #1e1e1e; border-radius:7px; padding:8px 10px; }
 .pip-img-hint b { color:#777; }
 .pip-corner-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
-.pip-corner-btn {
-  flex:1; min-width:60px; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:7px;
-  color:#666; font-size:10px; font-weight:700; padding:6px 4px;
-  cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
-  transition:border-color .2s,color .2s,background .2s;
-}
+.pip-corner-btn { flex:1; min-width:60px; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:7px; color:#666; font-size:10px; font-weight:700; padding:6px 4px; cursor:pointer; text-align:center; font-family:'Hind',sans-serif; transition:border-color .2s,color .2s,background .2s; }
 .pip-corner-btn:hover { border-color:#888; color:#eee; background:#222; }
 .pip-shape-row { display:flex; gap:5px; margin-top:4px; }
-.pip-shape-btn {
-  flex:1; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:7px;
-  color:#666; font-size:10px; font-weight:700; padding:6px 4px;
-  cursor:pointer; text-align:center; font-family:'Hind',sans-serif;
-  transition:border-color .2s,color .2s,background .2s;
-}
+.pip-shape-btn { flex:1; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:7px; color:#666; font-size:10px; font-weight:700; padding:6px 4px; cursor:pointer; text-align:center; font-family:'Hind',sans-serif; transition:border-color .2s,color .2s,background .2s; }
 .pip-shape-btn:hover { border-color:#888; color:#eee; }
 .pip-shape-btn.active { border-color:#bbb; background:#1c1c1c; color:#fff; }
 </style>
@@ -590,23 +464,13 @@ input[type="file"]   { display:none; }
       <!-- THE CARD -->
       <div id="card">
         <div id="bg-layer"></div>
-
-        <!-- DRAGGABLE BG IMAGE -->
         <img id="bg-img-el" src="" alt="" draggable="false">
-
-        <!-- Premium all-edges shadow overlay for bg image -->
         <div id="bg-img-shadow-overlay"></div>
-
-        <!-- PIP / STICKER IMAGE — sits above bg, below text -->
         <img id="pip-img-el" src="" alt="" draggable="false">
-
-        <!-- Notebook background layer -->
         <div id="notebook-layer"></div>
-
         <div id="overlay-layer"></div>
         <div id="guideline-45"></div>
 
-        <!-- PROFILE CHIP -->
         <div id="profile-chip">
           <div id="avatar-wrap">
             <div id="avatar-ring-outer"></div>
@@ -624,7 +488,6 @@ input[type="file"]   { display:none; }
           </div>
         </div>
 
-        <!-- SHAYARI -->
         <div id="shayari-display">
           <div id="shayari-text"></div>
           <div id="text-drag-hint">2-finger drag to reposition</div>
@@ -705,7 +568,19 @@ input[type="file"]   { display:none; }
         <span class="panel-chevron">▼</span>
       </div>
       <div class="panel-body">
-        <label>Font Family (click to apply)</label>
+
+        <!-- ══ DARK BG TEXT COLOR PRESETS ══ -->
+        <label>Quick Text Colour — Dark Background</label>
+        <div class="text-preset-grid" id="text-preset-grid">
+          <!-- filled by JS -->
+        </div>
+        <label style="margin-top:8px;">Custom Global Text Colour</label>
+        <div class="color-row">
+          <input type="color" id="text-color" value="#111111" oninput="applyTextColor(this.value,true)">
+          <span>Base colour for all text</span>
+        </div>
+
+        <label style="margin-top:14px;">Font Family (click to apply)</label>
         <div class="font-grid" id="font-grid">
           <div class="font-card active" data-font="'Hind', sans-serif"><div class="fp" style="font-family:'Hind',sans-serif;">हिंदी Aa</div><div class="fn">Hind</div></div>
           <div class="font-card" data-font="'Rozha One', serif"><div class="fp" style="font-family:'Rozha One',serif;">हिंदी Aa</div><div class="fn">Rozha One</div></div>
@@ -753,12 +628,6 @@ input[type="file"]   { display:none; }
           <button class="align-btn active" onclick="setAlign('left',this)">Left</button>
           <button class="align-btn" onclick="setAlign('center',this)">Centre</button>
           <button class="align-btn" onclick="setAlign('right',this)">Right</button>
-        </div>
-
-        <label>Global Text Colour</label>
-        <div class="color-row">
-          <input type="color" id="text-color" value="#111111" oninput="setTextColor(this.value)">
-          <span>Base colour for all text</span>
         </div>
 
         <label>Text Shadow</label>
@@ -827,170 +696,30 @@ input[type="file"]   { display:none; }
       <div class="panel-body">
         <span class="nb-section-title">📓 Notebook Templates</span>
         <div class="notebook-grid" id="nb-grid">
-
-          <!-- 1. OFF (no notebook) -->
           <div class="nb-card active" data-nb="none" onclick="setNotebook('none',this)" title="No notebook">
-            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
-              <rect width="80" height="100" fill="#1a1a1a"/>
-              <line x1="40" y1="20" x2="40" y2="80" stroke="#333" stroke-width="2"/>
-              <line x1="20" y1="50" x2="60" y2="50" stroke="#333" stroke-width="2"/>
-            </svg>
+            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="100" fill="#1a1a1a"/><line x1="40" y1="20" x2="40" y2="80" stroke="#333" stroke-width="2"/><line x1="20" y1="50" x2="60" y2="50" stroke="#333" stroke-width="2"/></svg>
             <span class="nb-label">Off</span>
           </div>
-
-          <!-- 2. Classic White Ruled -->
-          <div class="nb-card" data-nb="white-ruled" onclick="setNotebook('white-ruled',this)" title="Classic white lined notebook">
-            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
-              <rect width="80" height="100" fill="#fafaf7"/>
-              <!-- spiral holes -->
-              <circle cx="12" cy="14" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/>
-              <circle cx="12" cy="30" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/>
-              <circle cx="12" cy="46" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/>
-              <circle cx="12" cy="62" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/>
-              <circle cx="12" cy="78" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/>
-              <circle cx="12" cy="94" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/>
-              <!-- margin line -->
-              <line x1="22" y1="0" x2="22" y2="100" stroke="#f0a0a0" stroke-width="1"/>
-              <!-- ruled lines -->
-              <line x1="22" y1="18" x2="76" y2="18" stroke="#c8d4e8" stroke-width=".7"/>
-              <line x1="22" y1="28" x2="76" y2="28" stroke="#c8d4e8" stroke-width=".7"/>
-              <line x1="22" y1="38" x2="76" y2="38" stroke="#c8d4e8" stroke-width=".7"/>
-              <line x1="22" y1="48" x2="76" y2="48" stroke="#c8d4e8" stroke-width=".7"/>
-              <line x1="22" y1="58" x2="76" y2="58" stroke="#c8d4e8" stroke-width=".7"/>
-              <line x1="22" y1="68" x2="76" y2="68" stroke="#c8d4e8" stroke-width=".7"/>
-              <line x1="22" y1="78" x2="76" y2="78" stroke="#c8d4e8" stroke-width=".7"/>
-              <line x1="22" y1="88" x2="76" y2="88" stroke="#c8d4e8" stroke-width=".7"/>
-              <!-- spiral coil -->
-              <path d="M12 10 Q6 12 6 18 Q6 24 12 26 Q18 28 18 34 Q18 40 12 42 Q6 44 6 50 Q6 56 12 58 Q18 60 18 66 Q18 72 12 74 Q6 76 6 82 Q6 88 12 90" fill="none" stroke="#b0b0b0" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
+          <div class="nb-card" data-nb="white-ruled" onclick="setNotebook('white-ruled',this)">
+            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="100" fill="#fafaf7"/><circle cx="12" cy="14" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/><circle cx="12" cy="30" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/><circle cx="12" cy="46" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/><circle cx="12" cy="62" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/><circle cx="12" cy="78" r="3.5" fill="none" stroke="#c0b89a" stroke-width="1.5"/><line x1="22" y1="0" x2="22" y2="100" stroke="#f0a0a0" stroke-width="1"/><line x1="22" y1="18" x2="76" y2="18" stroke="#c8d4e8" stroke-width=".7"/><line x1="22" y1="28" x2="76" y2="28" stroke="#c8d4e8" stroke-width=".7"/><line x1="22" y1="38" x2="76" y2="38" stroke="#c8d4e8" stroke-width=".7"/><line x1="22" y1="48" x2="76" y2="48" stroke="#c8d4e8" stroke-width=".7"/><line x1="22" y1="58" x2="76" y2="58" stroke="#c8d4e8" stroke-width=".7"/><line x1="22" y1="68" x2="76" y2="68" stroke="#c8d4e8" stroke-width=".7"/><line x1="22" y1="78" x2="76" y2="78" stroke="#c8d4e8" stroke-width=".7"/><line x1="22" y1="88" x2="76" y2="88" stroke="#c8d4e8" stroke-width=".7"/></svg>
             <span class="nb-label">Ruled</span>
           </div>
-
-          <!-- 3. Yellow Legal Pad -->
-          <div class="nb-card" data-nb="legal-pad" onclick="setNotebook('legal-pad',this)" title="Yellow legal pad">
-            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
-              <rect width="80" height="100" fill="#fef3a0"/>
-              <!-- top binding strip -->
-              <rect width="80" height="10" fill="#e8d84a"/>
-              <line x1="0" y1="10" x2="80" y2="10" stroke="#c8b800" stroke-width="1"/>
-              <!-- punch holes in binding -->
-              <circle cx="15" cy="5" r="2.5" fill="#c8b800"/>
-              <circle cx="40" cy="5" r="2.5" fill="#c8b800"/>
-              <circle cx="65" cy="5" r="2.5" fill="#c8b800"/>
-              <!-- margin line -->
-              <line x1="18" y1="10" x2="18" y2="100" stroke="#f0a0a0" stroke-width="1"/>
-              <!-- lines -->
-              <line x1="18" y1="22" x2="77" y2="22" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-              <line x1="18" y1="32" x2="77" y2="32" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-              <line x1="18" y1="42" x2="77" y2="42" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-              <line x1="18" y1="52" x2="77" y2="52" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-              <line x1="18" y1="62" x2="77" y2="62" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-              <line x1="18" y1="72" x2="77" y2="72" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-              <line x1="18" y1="82" x2="77" y2="82" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-              <line x1="18" y1="92" x2="77" y2="92" stroke="#bba800" stroke-width=".8" opacity=".5"/>
-            </svg>
+          <div class="nb-card" data-nb="legal-pad" onclick="setNotebook('legal-pad',this)">
+            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="100" fill="#fef3a0"/><rect width="80" height="10" fill="#e8d84a"/><line x1="0" y1="10" x2="80" y2="10" stroke="#c8b800" stroke-width="1"/><circle cx="15" cy="5" r="2.5" fill="#c8b800"/><circle cx="40" cy="5" r="2.5" fill="#c8b800"/><circle cx="65" cy="5" r="2.5" fill="#c8b800"/><line x1="18" y1="10" x2="18" y2="100" stroke="#f0a0a0" stroke-width="1"/><line x1="18" y1="22" x2="77" y2="22" stroke="#bba800" stroke-width=".8" opacity=".5"/><line x1="18" y1="32" x2="77" y2="32" stroke="#bba800" stroke-width=".8" opacity=".5"/><line x1="18" y1="42" x2="77" y2="42" stroke="#bba800" stroke-width=".8" opacity=".5"/><line x1="18" y1="52" x2="77" y2="52" stroke="#bba800" stroke-width=".8" opacity=".5"/><line x1="18" y1="62" x2="77" y2="62" stroke="#bba800" stroke-width=".8" opacity=".5"/><line x1="18" y1="72" x2="77" y2="72" stroke="#bba800" stroke-width=".8" opacity=".5"/><line x1="18" y1="82" x2="77" y2="82" stroke="#bba800" stroke-width=".8" opacity=".5"/><line x1="18" y1="92" x2="77" y2="92" stroke="#bba800" stroke-width=".8" opacity=".5"/></svg>
             <span class="nb-label">Legal Pad</span>
           </div>
-
-          <!-- 4. Parchment / Vintage -->
-          <div class="nb-card" data-nb="parchment" onclick="setNotebook('parchment',this)" title="Vintage parchment">
-            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#f5e6c8"/>
-                  <stop offset="100%" stop-color="#e8d0a0"/>
-                </linearGradient>
-              </defs>
-              <rect width="80" height="100" fill="url(#pg1)"/>
-              <!-- torn left edge effect -->
-              <path d="M0 0 Q3 5 0 10 Q3 20 0 30 Q3 40 0 50 Q3 60 0 70 Q3 80 0 90 Q3 95 0 100 L0 0Z" fill="#d4b878" opacity=".4"/>
-              <!-- decorative border top -->
-              <rect x="5" y="5" width="70" height="90" fill="none" stroke="#a08040" stroke-width=".8" opacity=".5"/>
-              <rect x="7" y="7" width="66" height="86" fill="none" stroke="#a08040" stroke-width=".4" opacity=".3"/>
-              <!-- faint lines -->
-              <line x1="8" y1="22" x2="73" y2="22" stroke="#8b6914" stroke-width=".5" opacity=".3"/>
-              <line x1="8" y1="32" x2="73" y2="32" stroke="#8b6914" stroke-width=".5" opacity=".3"/>
-              <line x1="8" y1="42" x2="73" y2="42" stroke="#8b6914" stroke-width=".5" opacity=".3"/>
-              <line x1="8" y1="52" x2="73" y2="52" stroke="#8b6914" stroke-width=".5" opacity=".3"/>
-              <line x1="8" y1="62" x2="73" y2="62" stroke="#8b6914" stroke-width=".5" opacity=".3"/>
-              <line x1="8" y1="72" x2="73" y2="72" stroke="#8b6914" stroke-width=".5" opacity=".3"/>
-              <line x1="8" y1="82" x2="73" y2="82" stroke="#8b6914" stroke-width=".5" opacity=".3"/>
-            </svg>
+          <div class="nb-card" data-nb="parchment" onclick="setNotebook('parchment',this)">
+            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f5e6c8"/><stop offset="100%" stop-color="#e8d0a0"/></linearGradient></defs><rect width="80" height="100" fill="url(#pg1)"/><path d="M0 0 Q3 5 0 10 Q3 20 0 30 Q3 40 0 50 Q3 60 0 70 Q3 80 0 90 Q3 95 0 100 L0 0Z" fill="#d4b878" opacity=".4"/><rect x="5" y="5" width="70" height="90" fill="none" stroke="#a08040" stroke-width=".8" opacity=".5"/><line x1="8" y1="22" x2="73" y2="22" stroke="#8b6914" stroke-width=".5" opacity=".3"/><line x1="8" y1="32" x2="73" y2="32" stroke="#8b6914" stroke-width=".5" opacity=".3"/><line x1="8" y1="42" x2="73" y2="42" stroke="#8b6914" stroke-width=".5" opacity=".3"/><line x1="8" y1="52" x2="73" y2="52" stroke="#8b6914" stroke-width=".5" opacity=".3"/><line x1="8" y1="62" x2="73" y2="62" stroke="#8b6914" stroke-width=".5" opacity=".3"/><line x1="8" y1="72" x2="73" y2="72" stroke="#8b6914" stroke-width=".5" opacity=".3"/><line x1="8" y1="82" x2="73" y2="82" stroke="#8b6914" stroke-width=".5" opacity=".3"/></svg>
             <span class="nb-label">Parchment</span>
           </div>
-
-          <!-- 5. Dark / Blackboard -->
-          <div class="nb-card" data-nb="blackboard" onclick="setNotebook('blackboard',this)" title="Blackboard / dark slate">
-            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#1e2a1e"/>
-                  <stop offset="100%" stop-color="#0d1a0d"/>
-                </linearGradient>
-              </defs>
-              <rect width="80" height="100" fill="url(#bg1)"/>
-              <!-- chalk ledge -->
-              <rect x="0" y="92" width="80" height="8" fill="#1a2a1a"/>
-              <rect x="8" y="93" width="12" height="4" rx="1" fill="#e8e4d8"/>
-              <rect x="24" y="93" width="8" height="4" rx="1" fill="#f0d8a0"/>
-              <!-- chalk lines -->
-              <line x1="8" y1="20" x2="72" y2="20" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-              <line x1="8" y1="30" x2="72" y2="30" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-              <line x1="8" y1="40" x2="72" y2="40" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-              <line x1="8" y1="50" x2="72" y2="50" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-              <line x1="8" y1="60" x2="72" y2="60" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-              <line x1="8" y1="70" x2="72" y2="70" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-              <line x1="8" y1="80" x2="72" y2="80" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-              <!-- wood frame -->
-              <rect x="0" y="0" width="80" height="5" fill="#5c3a1a"/>
-              <rect x="0" y="95" width="80" height="5" fill="#5c3a1a"/>
-              <rect x="0" y="0" width="4" height="100" fill="#5c3a1a"/>
-              <rect x="76" y="0" width="4" height="100" fill="#5c3a1a"/>
-            </svg>
+          <div class="nb-card" data-nb="blackboard" onclick="setNotebook('blackboard',this)">
+            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e2a1e"/><stop offset="100%" stop-color="#0d1a0d"/></linearGradient></defs><rect width="80" height="100" fill="url(#bg1)"/><rect x="0" y="92" width="80" height="8" fill="#1a2a1a"/><rect x="8" y="93" width="12" height="4" rx="1" fill="#e8e4d8"/><rect x="24" y="93" width="8" height="4" rx="1" fill="#f0d8a0"/><line x1="8" y1="20" x2="72" y2="20" stroke="rgba(255,255,255,.12)" stroke-width="1"/><line x1="8" y1="30" x2="72" y2="30" stroke="rgba(255,255,255,.12)" stroke-width="1"/><line x1="8" y1="40" x2="72" y2="40" stroke="rgba(255,255,255,.12)" stroke-width="1"/><line x1="8" y1="50" x2="72" y2="50" stroke="rgba(255,255,255,.12)" stroke-width="1"/><line x1="8" y1="60" x2="72" y2="60" stroke="rgba(255,255,255,.12)" stroke-width="1"/><line x1="8" y1="70" x2="72" y2="70" stroke="rgba(255,255,255,.12)" stroke-width="1"/><line x1="8" y1="80" x2="72" y2="80" stroke="rgba(255,255,255,.12)" stroke-width="1"/><rect x="0" y="0" width="80" height="5" fill="#5c3a1a"/><rect x="0" y="95" width="80" height="5" fill="#5c3a1a"/><rect x="0" y="0" width="4" height="100" fill="#5c3a1a"/><rect x="76" y="0" width="4" height="100" fill="#5c3a1a"/></svg>
             <span class="nb-label">Blackboard</span>
           </div>
-
-          <!-- 6. Spiral open book -->
-          <div class="nb-card" data-nb="open-book" onclick="setNotebook('open-book',this)" title="Open spiral notebook spread">
-            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
-              <rect width="80" height="100" fill="#f0ede6"/>
-              <!-- page shadow / gutter -->
-              <rect x="36" y="0" width="8" height="100" fill="rgba(0,0,0,.07)"/>
-              <line x1="40" y1="0" x2="40" y2="100" stroke="#ccc" stroke-width=".5"/>
-              <!-- left page lines -->
-              <line x1="8" y1="15" x2="36" y2="15" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="24" x2="36" y2="24" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="33" x2="36" y2="33" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="42" x2="36" y2="42" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="51" x2="36" y2="51" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="60" x2="36" y2="60" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="69" x2="36" y2="69" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="78" x2="36" y2="78" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="8" y1="87" x2="36" y2="87" stroke="#b8c8e0" stroke-width=".7"/>
-              <!-- right page lines -->
-              <line x1="44" y1="15" x2="73" y2="15" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="24" x2="73" y2="24" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="33" x2="73" y2="33" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="42" x2="73" y2="42" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="51" x2="73" y2="51" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="60" x2="73" y2="60" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="69" x2="73" y2="69" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="78" x2="73" y2="78" stroke="#b8c8e0" stroke-width=".7"/>
-              <line x1="44" y1="87" x2="73" y2="87" stroke="#b8c8e0" stroke-width=".7"/>
-              <!-- spiral coil in center -->
-              <circle cx="40" cy="14" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="24" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="34" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="44" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="54" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="64" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="74" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="84" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-              <circle cx="40" cy="94" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/>
-            </svg>
+          <div class="nb-card" data-nb="open-book" onclick="setNotebook('open-book',this)">
+            <svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="100" fill="#f0ede6"/><rect x="36" y="0" width="8" height="100" fill="rgba(0,0,0,.07)"/><line x1="40" y1="0" x2="40" y2="100" stroke="#ccc" stroke-width=".5"/><line x1="8" y1="15" x2="36" y2="15" stroke="#b8c8e0" stroke-width=".7"/><line x1="8" y1="24" x2="36" y2="24" stroke="#b8c8e0" stroke-width=".7"/><line x1="8" y1="33" x2="36" y2="33" stroke="#b8c8e0" stroke-width=".7"/><line x1="8" y1="42" x2="36" y2="42" stroke="#b8c8e0" stroke-width=".7"/><line x1="44" y1="15" x2="73" y2="15" stroke="#b8c8e0" stroke-width=".7"/><line x1="44" y1="24" x2="73" y2="24" stroke="#b8c8e0" stroke-width=".7"/><line x1="44" y1="33" x2="73" y2="33" stroke="#b8c8e0" stroke-width=".7"/><line x1="44" y1="42" x2="73" y2="42" stroke="#b8c8e0" stroke-width=".7"/><circle cx="40" cy="14" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/><circle cx="40" cy="24" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/><circle cx="40" cy="34" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/><circle cx="40" cy="44" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/><circle cx="40" cy="54" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/><circle cx="40" cy="64" r="2.5" fill="none" stroke="#888" stroke-width="1.2"/></svg>
             <span class="nb-label">Open Book</span>
           </div>
-
         </div>
 
         <div id="nb-controls" style="display:none;margin-top:10px;">
@@ -1021,20 +750,23 @@ input[type="file"]   { display:none; }
         <label class="upload-btn" for="bg-img-input">📸 Upload Image (PNG / JPG / WebP)</label>
         <input type="file" id="bg-img-input" accept="image/*" onchange="loadBgImage(this)">
 
-        <!-- BG IMAGE CONTROLS — shown after upload -->
         <div id="bg-img-controls">
           <div class="bg-img-hint">
-            <b>🖱 Drag</b> the image directly on the card to reposition it anywhere.<br>
-            Use the scale slider below to resize it.
+            <b>🖱 Drag</b> the image on the card to reposition · Use scale slider to resize
           </div>
 
-          <label style="margin-top:4px;">Image Scale — <span class="val" id="bg-img-scale-val">100</span>%</label>
+          <!-- 🔒 LOCK POSITION TOGGLE -->
+          <div class="toggle-row" id="bg-lock-toggle" onclick="toggleBgLock()" style="margin-top:4px;">
+            <span class="toggle-label">🔒 Lock BG Image Position</span>
+            <div class="tog-switch"></div>
+          </div>
+
+          <label style="margin-top:8px;">Image Scale — <span class="val" id="bg-img-scale-val">100</span>%</label>
           <input type="range" min="10" max="400" value="100" id="bg-img-scale-range" oninput="setBgImgScale(this.value)">
 
           <label>Image Opacity — <span class="val" id="bg-opacity-val">100</span>%</label>
           <input type="range" min="0" max="100" value="100" id="bg-opacity-range" oninput="setBgOpacity(this.value)">
 
-          <!-- ✨ NEW: Premium all-edges shadow toggle -->
           <div class="toggle-row on" id="bg-img-shadow-toggle" onclick="toggleBgImgEdgeShadow()" style="margin-top:4px;">
             <span class="toggle-label">✨ Premium Edge Shadow</span>
             <div class="tog-switch"></div>
@@ -1046,18 +778,17 @@ input[type="file"]   { display:none; }
           </div>
 
           <div class="bg-img-btn-row">
-            <button class="bg-img-action-btn" onclick="centerBgImg()">⊙ Centre Image</button>
-            <button class="bg-img-action-btn" onclick="fitBgImg()">⤢ Fit to Card</button>
-            <button class="bg-img-action-btn" onclick="fillBgImg()">⬛ Fill Card</button>
+            <button class="bg-img-action-btn" onclick="centerBgImg()">⊙ Centre</button>
+            <button class="bg-img-action-btn" onclick="fitBgImg()">⤢ Fit</button>
+            <button class="bg-img-action-btn" onclick="fillBgImg()">⬛ Fill</button>
             <button class="bg-img-action-btn danger" onclick="removeBgImg()">✕ Remove</button>
           </div>
         </div>
 
-        <!-- Overlay — always visible -->
         <label style="margin-top:12px;">Dark Overlay — <span class="val" id="overlay-val">0</span>%</label>
         <input type="range" min="0" max="90" value="0" id="overlay-range" oninput="setOverlay(this.value)">
 
-        <!-- ═══ PIP / STICKER IMAGE SECTION ═══ -->
+        <!-- PIP / STICKER IMAGE SECTION -->
         <div id="pip-img-section">
           <label style="margin-top:0;">📌 Sticker / PiP Image</label>
           <p class="panel-desc" style="font-size:10px;color:#555;margin:4px 0 6px;">Upload a second image (logo, sticker, face, etc.) and place it anywhere on the card.</p>
@@ -1066,11 +797,16 @@ input[type="file"]   { display:none; }
 
           <div id="pip-img-controls">
             <div class="pip-img-hint">
-              <b>🖱 Drag</b> the sticker directly on the card to reposition.<br>
-              Use sliders below to resize &amp; adjust opacity.
+              <b>🖱 Drag</b> the sticker directly on the card to reposition.
             </div>
 
-            <label style="margin-top:4px;">Sticker Scale — <span class="val" id="pip-scale-val">100</span>%</label>
+            <!-- 🔒 LOCK PIP POSITION -->
+            <div class="toggle-row" id="pip-lock-toggle" onclick="togglePipLock()" style="margin-top:4px;">
+              <span class="toggle-label">🔒 Lock Sticker Position</span>
+              <div class="tog-switch"></div>
+            </div>
+
+            <label style="margin-top:8px;">Sticker Scale — <span class="val" id="pip-scale-val">100</span>%</label>
             <input type="range" min="5" max="400" value="100" id="pip-scale-range" oninput="setPipScale(this.value)">
 
             <label>Sticker Opacity — <span class="val" id="pip-opacity-val">100</span>%</label>
@@ -1253,16 +989,71 @@ let bgImgY        = 0;
 let bgImgLoaded   = false;
 let bgImgNatW     = 0;
 let bgImgNatH     = 0;
-let bgEdgeShadow  = true;   // premium edge shadow ON by default
-let shadowIntensity = 60;   // 10-100
+let bgEdgeShadow  = true;
+let shadowIntensity = 60;
+let bgImgLocked   = false;   // 🔒 NEW
+let bgImgDataURL  = null;    // ✅ FIX: store as data URL for reliable html2canvas
+
+// pip image state
+let pipImgScale   = 100;
+let pipImgX       = 60;
+let pipImgY       = 60;
+let pipImgLoaded  = false;
+let pipImgNatW    = 0;
+let pipImgNatH    = 0;
+let pipRadius     = 0;
+let pipImgLocked  = false;   // 🔒 NEW
+let pipImgDataURL = null;    // ✅ FIX: store as data URL
 
 // drag shared
 let activeDrag    = null;
 let dragOffX      = 0, dragOffY = 0;
+let dragMoved     = false;
+let wzBarActive   = false;
 
-// ══ FIX: track pointer movement per drag gesture only ══
-let dragMoved     = false;  // true only while a drag is active and pointer has moved
-let wzBarActive   = false;  // true when pointer is down inside word-zoom-bar
+/* ══════════════════════════════════════════
+   TEXT COLOR PRESETS (Dark BG)
+══════════════════════════════════════════ */
+const TEXT_PRESETS = [
+  { color:'#ffffff', label:'White',    bg:'#1a1a1a', hint:'Pure White' },
+  { color:'#f5f5f0', label:'Cream',    bg:'#2a2a20', hint:'Soft Cream' },
+  { color:'#ffd700', label:'Gold',     bg:'#1a1400', hint:'Golden' },
+  { color:'#f8c8a0', label:'Peach',    bg:'#2a1a0a', hint:'Warm Peach' },
+  { color:'#e0d4c0', label:'Ivory',    bg:'#1e1a14', hint:'Parchment Ivory' },
+  { color:'#c8e8ff', label:'Ice',      bg:'#0a1420', hint:'Icy Blue' },
+  { color:'#ffc8d4', label:'Rose',     bg:'#200a10', hint:'Soft Rose' },
+  { color:'#d0ffd0', label:'Mint',     bg:'#0a2010', hint:'Mint Green' },
+  { color:'#e8c8ff', label:'Lavender', bg:'#180a20', hint:'Lavender' },
+  { color:'#ffec80', label:'Lemon',    bg:'#201800', hint:'Lemon Yellow' },
+  { color:'#111111', label:'Black',    bg:'#d9d9d9', hint:'Classic Black' },
+  { color:'#333333', label:'Charcoal', bg:'#c0c0c0', hint:'Charcoal' },
+];
+
+function buildTextPresets() {
+  const grid = document.getElementById('text-preset-grid');
+  TEXT_PRESETS.forEach(p => {
+    const btn = document.createElement('div');
+    btn.className = 'text-preset-btn';
+    btn.style.background = p.bg;
+    btn.style.color = p.color;
+    btn.title = p.hint;
+    btn.textContent = p.label;
+    btn.onclick = () => {
+      document.querySelectorAll('.text-preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyTextColor(p.color, false);
+      document.getElementById('text-color').value = p.color;
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function applyTextColor(c, fromPicker) {
+  document.getElementById('shayari-text').style.color = c;
+  if (fromPicker) {
+    document.querySelectorAll('.text-preset-btn').forEach(b => b.classList.remove('active'));
+  }
+}
 
 /* ══════════════════════════════════════════
    INIT
@@ -1270,6 +1061,7 @@ let wzBarActive   = false;  // true when pointer is down inside word-zoom-bar
 window.addEventListener('DOMContentLoaded', () => {
   setCardSize('portrait');
   buildBgSwatches();
+  buildTextPresets();
   initDrag();
   initWordZoom();
 
@@ -1288,13 +1080,12 @@ window.addEventListener('DOMContentLoaded', () => {
     renderShayari();
   });
 
-  // Initialise shadow overlay state
   document.getElementById('bg-img-shadow-toggle').classList.add('on');
   updateEdgeShadowOverlay();
 });
 
 /* ══════════════════════════════════════════
-   COLLAPSIBLE PANELS
+   PANELS
 ══════════════════════════════════════════ */
 function togglePanel(id) {
   document.getElementById(id).classList.toggle('open');
@@ -1374,9 +1165,9 @@ function renderShayari() {
       }
       const wk = `${li}-${wi}`;
       const ws = document.createElement('span');
-      ws.className     = 'word-span';
-      ws.dataset.wk    = wk;
-      ws.textContent   = part;
+      ws.className   = 'word-span';
+      ws.dataset.wk  = wk;
+      ws.textContent = part;
       if (selectedWordKey === wk) ws.classList.add('selected-word');
       const ov = wordOverrides[wk];
       if (ov) {
@@ -1402,10 +1193,10 @@ function renderShayari() {
       } else {
         const ornament = document.createElement('span');
         ornament.className = 'line-span';
-        ornament.style.color   = sepColor;
-        ornament.style.opacity = sepOpacity / 100;
-        ornament.style.fontSize = '14px';
-        ornament.style.width   = '100%';
+        ornament.style.color     = sepColor;
+        ornament.style.opacity   = sepOpacity / 100;
+        ornament.style.fontSize  = '14px';
+        ornament.style.width     = '100%';
         ornament.style.textAlign = 'center';
         ornament.textContent = sepStyle === 'dots' ? '· · ·' : '◆';
         st.appendChild(ornament);
@@ -1470,7 +1261,38 @@ function buildLineEditor(lines) {
 }
 
 /* ══════════════════════════════════════════
-   DRAG — chip, text, bg-image
+   🔒 LOCK POSITION TOGGLES — NEW
+══════════════════════════════════════════ */
+function toggleBgLock() {
+  bgImgLocked = !bgImgLocked;
+  const tog = document.getElementById('bg-lock-toggle');
+  tog.classList.toggle('on', bgImgLocked);
+  const imgEl = document.getElementById('bg-img-el');
+  if (bgImgLocked) {
+    imgEl.classList.add('locked');
+    imgEl.style.cursor = 'default';
+  } else {
+    imgEl.classList.remove('locked');
+    imgEl.style.cursor = 'grab';
+  }
+}
+
+function togglePipLock() {
+  pipImgLocked = !pipImgLocked;
+  const tog = document.getElementById('pip-lock-toggle');
+  tog.classList.toggle('on', pipImgLocked);
+  const imgEl = document.getElementById('pip-img-el');
+  if (pipImgLocked) {
+    imgEl.classList.add('locked');
+    imgEl.style.cursor = 'default';
+  } else {
+    imgEl.classList.remove('locked');
+    imgEl.style.cursor = 'grab';
+  }
+}
+
+/* ══════════════════════════════════════════
+   DRAG — chip, text, bg-image, pip-image
 ══════════════════════════════════════════ */
 function initDrag() {
   const card     = document.getElementById('card');
@@ -1481,6 +1303,10 @@ function initDrag() {
 
   function onDown(e, target) {
     if (e.button !== undefined && e.button !== 0) return;
+    // Respect locks
+    if (target === 'bgimg' && bgImgLocked) return;
+    if (target === 'pipimg' && pipImgLocked) return;
+
     const isPen   = e.pointerType === 'pen';
     const isTouch = e.pointerType === 'touch';
     if (target === 'text' && !isTouch && !isPen) return;
@@ -1575,71 +1401,35 @@ function initDrag() {
 }
 
 /* ══════════════════════════════════════════
-   WORD ZOOM — FIXED
-   Root cause: pointerdown on wz-bar buttons bubbled up, set
-   dragMoved=true on the NEXT interaction, which caused the
-   card click handler to think a drag happened and bail out.
-
-   Fix: use a dedicated wzBarActive flag. When pointer goes
-   down inside the bar we set wzBarActive=true. The card's
-   click handler checks this flag and skips dismiss/select.
+   WORD ZOOM
 ══════════════════════════════════════════ */
 function initWordZoom() {
   const bar = document.getElementById('word-zoom-bar');
 
-  // ── Mark bar as active on ANY pointer/mouse down inside it ──
-  bar.addEventListener('pointerdown', e => {
-    wzBarActive = true;
-    e.stopPropagation();
-  });
-  bar.addEventListener('mousedown', e => {
-    wzBarActive = true;
-    e.stopPropagation();
-  });
-  // Also stop click from bubbling so card's click listener never fires
-  bar.addEventListener('click', e => {
-    e.stopPropagation();
-  });
+  bar.addEventListener('pointerdown', e => { wzBarActive = true; e.stopPropagation(); });
+  bar.addEventListener('mousedown',   e => { wzBarActive = true; e.stopPropagation(); });
+  bar.addEventListener('click',       e => { e.stopPropagation(); });
 
-  // Reset wzBarActive after any pointer/mouse up on the whole window
-  window.addEventListener('pointerup', () => {
-    // Small timeout so the card's click handler (which fires after pointerup) sees the flag
-    setTimeout(() => { wzBarActive = false; }, 50);
-  });
-  window.addEventListener('mouseup', () => {
-    setTimeout(() => { wzBarActive = false; }, 50);
-  });
+  window.addEventListener('pointerup', () => { setTimeout(() => { wzBarActive = false; }, 50); });
+  window.addEventListener('mouseup',   () => { setTimeout(() => { wzBarActive = false; }, 50); });
 
-  // ── Card click: word select OR dismiss ──
   document.getElementById('card').addEventListener('click', e => {
-    // If interaction started inside the word-zoom-bar, do nothing
     if (wzBarActive) return;
-
     const ws = e.target.closest('.word-span');
     if (!ws) {
-      // Only dismiss if we didn't just finish a drag
       if (!dragMoved) dismissWordZoom();
       dragMoved = false;
       return;
     }
     if (dragMoved) { dragMoved = false; return; }
-
     selectedWordKey = ws.dataset.wk;
     renderShayari();
     showWordZoom(ws);
   });
 
-  // − + buttons
-  document.getElementById('wz-minus').addEventListener('click', e => {
-    e.stopPropagation();
-    adjustWordSize(-1);
-  });
-  document.getElementById('wz-plus').addEventListener('click', e => {
-    e.stopPropagation();
-    adjustWordSize(+1);
-  });
+  document.getElementById('wz-minus').addEventListener('click', e => { e.stopPropagation(); adjustWordSize(-1); });
+  document.getElementById('wz-plus').addEventListener('click',  e => { e.stopPropagation(); adjustWordSize(+1); });
 
-  // colour
   document.getElementById('wz-color-input').addEventListener('input', function() {
     if (!selectedWordKey) return;
     wordOverrides[selectedWordKey] = wordOverrides[selectedWordKey] || {};
@@ -1649,7 +1439,6 @@ function initWordZoom() {
     repositionWordZoom();
   });
 
-  // font
   document.getElementById('wz-font-select').addEventListener('change', function() {
     if (!selectedWordKey) return;
     wordOverrides[selectedWordKey] = wordOverrides[selectedWordKey] || {};
@@ -1659,7 +1448,6 @@ function initWordZoom() {
     repositionWordZoom();
   });
 
-  // reset
   document.getElementById('wz-reset-btn').addEventListener('click', e => {
     e.stopPropagation();
     if (!selectedWordKey) return;
@@ -1679,8 +1467,7 @@ function showWordZoom(ws) {
   document.getElementById('wz-size-display').textContent = sz + 'px';
   document.getElementById('wz-color-swatch').style.background = col;
   document.getElementById('wz-color-input').value = col;
-  const fontSel = document.getElementById('wz-font-select');
-  fontSel.value = ov.font || '';
+  document.getElementById('wz-font-select').value = ov.font || '';
   repositionWordZoom();
 }
 
@@ -1763,17 +1550,9 @@ function setSepStyle(style, btn) {
   document.getElementById('sep-options').style.display = style === 'none' ? 'none' : 'block';
   renderShayari();
 }
-function setSepColor(c) { sepColor = c; renderShayari(); }
-function setSepOpacity(v) {
-  sepOpacity = +v;
-  document.getElementById('sep-opacity-val').textContent = v;
-  renderShayari();
-}
-function setSepWidth(v) {
-  sepWidth = +v;
-  document.getElementById('sep-width-val').textContent = v;
-  renderShayari();
-}
+function setSepColor(c)  { sepColor = c; renderShayari(); }
+function setSepOpacity(v){ sepOpacity = +v; document.getElementById('sep-opacity-val').textContent = v; renderShayari(); }
+function setSepWidth(v)  { sepWidth = +v; document.getElementById('sep-width-val').textContent = v; renderShayari(); }
 
 /* ══════════════════════════════════════════
    BACKGROUND — SOLID / GRADIENT
@@ -1823,28 +1602,38 @@ function setOverlay(v) {
 }
 
 /* ══════════════════════════════════════════
+   ✅ FIXED: Load image as DATA URL for html2canvas reliability
+══════════════════════════════════════════ */
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ══════════════════════════════════════════
    BACKGROUND IMAGE — DRAGGABLE
 ══════════════════════════════════════════ */
-function loadBgImage(input) {
+async function loadBgImage(input) {
   const file = input.files[0];
   if (!file) return;
-  const url = URL.createObjectURL(file);
-  const imgEl = document.getElementById('bg-img-el');
 
+  // ✅ Convert to base64 data URL — avoids CORS/blob issues in html2canvas
+  bgImgDataURL = await fileToDataURL(file);
+
+  const imgEl = document.getElementById('bg-img-el');
   imgEl.onload = () => {
     bgImgNatW   = imgEl.naturalWidth;
     bgImgNatH   = imgEl.naturalHeight;
     bgImgLoaded = true;
-
     fitBgImg();
-
     document.getElementById('bg-img-controls').classList.add('visible');
     imgEl.style.display = 'block';
-
-    // Show edge shadow overlay by default
     updateEdgeShadowOverlay();
   };
-  imgEl.src = url;
+  imgEl.src = bgImgDataURL;
   input.value = '';
 }
 
@@ -1884,9 +1673,7 @@ function fitBgImg() {
   const card   = document.getElementById('card');
   const cw     = parseInt(card.style.width);
   const ch     = parseInt(card.style.height);
-  const scaleW = cw / bgImgNatW;
-  const scaleH = ch / bgImgNatH;
-  bgImgScale   = Math.min(scaleW, scaleH) * 100;
+  bgImgScale   = Math.min(cw / bgImgNatW, ch / bgImgNatH) * 100;
   document.getElementById('bg-img-scale-range').value = Math.min(400, Math.round(bgImgScale));
   document.getElementById('bg-img-scale-val').textContent = Math.round(bgImgScale);
   const scale  = bgImgScale / 100;
@@ -1900,9 +1687,7 @@ function fillBgImg() {
   const card   = document.getElementById('card');
   const cw     = parseInt(card.style.width);
   const ch     = parseInt(card.style.height);
-  const scaleW = cw / bgImgNatW;
-  const scaleH = ch / bgImgNatH;
-  bgImgScale   = Math.max(scaleW, scaleH) * 100;
+  bgImgScale   = Math.max(cw / bgImgNatW, ch / bgImgNatH) * 100;
   document.getElementById('bg-img-scale-range').value = Math.min(400, Math.round(bgImgScale));
   document.getElementById('bg-img-scale-val').textContent = Math.round(bgImgScale);
   const scale  = bgImgScale / 100;
@@ -1915,18 +1700,20 @@ function removeBgImg() {
   const imgEl = document.getElementById('bg-img-el');
   imgEl.style.display = 'none';
   imgEl.src = '';
-  bgImgLoaded = false;
+  bgImgLoaded  = false;
+  bgImgDataURL = null;
+  bgImgLocked  = false;
+  document.getElementById('bg-lock-toggle').classList.remove('on');
   document.getElementById('bg-img-controls').classList.remove('visible');
   document.getElementById('bg-img-scale-range').value = 100;
   document.getElementById('bg-img-scale-val').textContent = 100;
   document.getElementById('bg-opacity-range').value = 100;
   document.getElementById('bg-opacity-val').textContent = 100;
-  // Hide shadow overlay
   document.getElementById('bg-img-shadow-overlay').classList.remove('visible');
 }
 
 /* ══════════════════════════════════════════
-   PREMIUM EDGE SHADOW — NEW
+   PREMIUM EDGE SHADOW
 ══════════════════════════════════════════ */
 function updateEdgeShadowOverlay() {
   const overlay = document.getElementById('bg-img-shadow-overlay');
@@ -1940,9 +1727,9 @@ function updateEdgeShadowOverlay() {
 
 function toggleBgImgEdgeShadow() {
   bgEdgeShadow = !bgEdgeShadow;
-  const tog = document.getElementById('bg-img-shadow-toggle');
-  tog.classList.toggle('on', bgEdgeShadow);
+  const tog  = document.getElementById('bg-img-shadow-toggle');
   const wrap = document.getElementById('shadow-intensity-wrap');
+  tog.classList.toggle('on', bgEdgeShadow);
   wrap.classList.toggle('visible', bgEdgeShadow);
   updateEdgeShadowOverlay();
 }
@@ -1956,7 +1743,6 @@ function setShadowIntensity(v) {
 function applyShadowIntensity() {
   const overlay = document.getElementById('bg-img-shadow-overlay');
   const s = shadowIntensity / 100;
-  // Scale all rgba alpha values by the intensity
   overlay.style.background = `
     radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(0,0,0,${(0.65*s).toFixed(2)}) 0%, transparent 70%),
     radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,0,0,${(0.65*s).toFixed(2)}) 0%, transparent 70%),
@@ -1974,8 +1760,7 @@ function applyShadowIntensity() {
 ══════════════════════════════════════════ */
 function toggleChipVis() {
   chipVisible = !chipVisible;
-  const t = document.getElementById('chip-vis-toggle');
-  t.classList.toggle('on', chipVisible);
+  document.getElementById('chip-vis-toggle').classList.toggle('on', chipVisible);
   document.getElementById('profile-chip').style.display = chipVisible ? 'flex' : 'none';
 }
 function toggleBadge() {
@@ -2002,15 +1787,15 @@ function setChipPos(pos) {
   const cw2  = chip.offsetWidth;
   const ch2  = chip.offsetHeight;
   const map  = {
-    'top-left':    [22,        22],
-    'top-center':  [(cw-cw2)/2, 22],
-    'top-right':   [cw-cw2-22, 22],
-    'mid-left':    [22,        (ch-ch2)/2],
-    'mid-center':  [(cw-cw2)/2, (ch-ch2)/2],
-    'mid-right':   [cw-cw2-22, (ch-ch2)/2],
-    'bot-left':    [22,        ch-ch2-22],
-    'bot-center':  [(cw-cw2)/2, ch-ch2-22],
-    'bot-right':   [cw-cw2-22, ch-ch2-22],
+    'top-left':    [22,          22],
+    'top-center':  [(cw-cw2)/2,  22],
+    'top-right':   [cw-cw2-22,   22],
+    'mid-left':    [22,          (ch-ch2)/2],
+    'mid-center':  [(cw-cw2)/2,  (ch-ch2)/2],
+    'mid-right':   [cw-cw2-22,   (ch-ch2)/2],
+    'bot-left':    [22,          ch-ch2-22],
+    'bot-center':  [(cw-cw2)/2,  ch-ch2-22],
+    'bot-right':   [cw-cw2-22,   ch-ch2-22],
   };
   const [x, y] = map[pos];
   chip.style.left = x + 'px';
@@ -2020,163 +1805,51 @@ function setChipPos(pos) {
 /* ══════════════════════════════════════════
    NOTEBOOK TEMPLATES
 ══════════════════════════════════════════ */
-let currentNb      = 'none';
-let nbPaperColor   = '#fafaf7';
-let nbLineColor    = '#b8c8e0';
-let nbOpacity      = 100;
+let currentNb    = 'none';
+let nbPaperColor = '#fafaf7';
+let nbLineColor  = '#b8c8e0';
+let nbOpacity    = 100;
 
-// ── Notebook SVG generators ──
 const NB_GENERATORS = {
-
   'white-ruled': (w, h) => {
-    const lineSpacing = Math.round(h / 20);
-    const startY      = Math.round(lineSpacing * 2);
-    const marginX     = Math.round(w * 0.10);
-    const spiralX     = Math.round(w * 0.055);
-    let lines = '';
-    for (let y = startY; y < h - 10; y += lineSpacing) {
-      lines += `<line x1="${marginX}" y1="${y}" x2="${w - 10}" y2="${y}" stroke="${nbLineColor}" stroke-width="1" opacity=".7"/>`;
+    const ls = Math.round(h / 20), sy = Math.round(ls * 2), mx = Math.round(w * 0.10), sx = Math.round(w * 0.055);
+    let lines = '', holes = '', coil = '';
+    for (let y = sy; y < h - 10; y += ls) lines += `<line x1="${mx}" y1="${y}" x2="${w-10}" y2="${y}" stroke="${nbLineColor}" stroke-width="1" opacity=".7"/>`;
+    const hc = Math.floor(h / (ls * 2)), hs = h / (hc + 1);
+    for (let i = 1; i <= hc; i++) {
+      const hy = Math.round(hs * i);
+      holes += `<circle cx="${sx}" cy="${hy}" r="${Math.round(w*0.025)}" fill="none" stroke="#b0a888" stroke-width="1.5"/>`;
+      if (i < hc) { const ny = Math.round(hs*(i+1)); coil += `<path d="M${sx} ${hy-Math.round(w*0.025)} Q${sx-Math.round(w*0.045)} ${(hy+ny)/2} ${sx} ${ny-Math.round(w*0.025)}" fill="none" stroke="#c0c0c0" stroke-width="1.5" stroke-linecap="round"/>`; }
     }
-    // spiral holes + coil
-    let holes = '', coil = '';
-    const holeCount = Math.floor(h / (lineSpacing * 2));
-    const holeStep  = h / (holeCount + 1);
-    for (let i = 1; i <= holeCount; i++) {
-      const hy = Math.round(holeStep * i);
-      holes += `<circle cx="${spiralX}" cy="${hy}" r="${Math.round(w * 0.025)}" fill="none" stroke="#b0a888" stroke-width="1.5"/>`;
-    }
-    // coil path
-    for (let i = 1; i <= holeCount; i++) {
-      const hy = Math.round(holeStep * i);
-      const nexty = Math.round(holeStep * (i + 1));
-      if (i < holeCount) {
-        coil += `<path d="M${spiralX} ${hy - Math.round(w*0.025)} Q${spiralX - Math.round(w*0.045)} ${(hy+nexty)/2} ${spiralX} ${nexty - Math.round(w*0.025)}" fill="none" stroke="#c0c0c0" stroke-width="1.5" stroke-linecap="round"/>`;
-      }
-    }
-    // margin line
-    const ml = `<line x1="${marginX}" y1="0" x2="${marginX}" y2="${h}" stroke="#f4a0a0" stroke-width="1.2" opacity=".8"/>`;
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block">
-      <rect width="${w}" height="${h}" fill="${nbPaperColor}"/>
-      ${coil}${holes}${ml}${lines}
-    </svg>`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block"><rect width="${w}" height="${h}" fill="${nbPaperColor}"/>${coil}${holes}<line x1="${mx}" y1="0" x2="${mx}" y2="${h}" stroke="#f4a0a0" stroke-width="1.2" opacity=".8"/>${lines}</svg>`;
   },
-
   'legal-pad': (w, h) => {
-    const lineSpacing = Math.round(h / 18);
-    const startY      = Math.round(h * 0.13);
-    const marginX     = Math.round(w * 0.09);
-    const bindH       = Math.round(h * 0.09);
-    // paper color — force yellow tint on legal pad
-    const paperC = '#fef5a5';
+    const ls = Math.round(h/18), sy = Math.round(h*0.13), mx = Math.round(w*0.09), bh = Math.round(h*0.09);
     let lines = '';
-    for (let y = startY + lineSpacing; y < h - 8; y += lineSpacing) {
-      lines += `<line x1="${marginX}" y1="${y}" x2="${w - 6}" y2="${y}" stroke="#c8a800" stroke-width=".9" opacity=".45"/>`;
-    }
-    const holeR = Math.round(w * 0.025);
-    const holes = [0.18, 0.5, 0.82].map(p =>
-      `<circle cx="${Math.round(w*p)}" cy="${Math.round(bindH/2)}" r="${holeR}" fill="#c0a800" opacity=".7"/>`
-    ).join('');
-    const ml = `<line x1="${marginX}" y1="${bindH}" x2="${marginX}" y2="${h}" stroke="#f08080" stroke-width="1.2" opacity=".7"/>`;
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block">
-      <rect width="${w}" height="${h}" fill="${paperC}"/>
-      <rect width="${w}" height="${bindH}" fill="#e8d020"/>
-      <line x1="0" y1="${bindH}" x2="${w}" y2="${bindH}" stroke="#b89000" stroke-width="1.5"/>
-      ${holes}${ml}${lines}
-    </svg>`;
+    for (let y = sy + ls; y < h - 8; y += ls) lines += `<line x1="${mx}" y1="${y}" x2="${w-6}" y2="${y}" stroke="#c8a800" stroke-width=".9" opacity=".45"/>`;
+    const hr2 = Math.round(w*0.025);
+    const holes = [0.18,0.5,0.82].map(p=>`<circle cx="${Math.round(w*p)}" cy="${Math.round(bh/2)}" r="${hr2}" fill="#c0a800" opacity=".7"/>`).join('');
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block"><rect width="${w}" height="${h}" fill="#fef5a5"/><rect width="${w}" height="${bh}" fill="#e8d020"/><line x1="0" y1="${bh}" x2="${w}" y2="${bh}" stroke="#b89000" stroke-width="1.5"/>${holes}<line x1="${mx}" y1="${bh}" x2="${mx}" y2="${h}" stroke="#f08080" stroke-width="1.2" opacity=".7"/>${lines}</svg>`;
   },
-
   'parchment': (w, h) => {
-    const lineSpacing = Math.round(h / 18);
-    const startY      = Math.round(h * 0.11);
+    const ls = Math.round(h/18), sy = Math.round(h*0.11);
     let lines = '';
-    for (let y = startY; y < h - 10; y += lineSpacing) {
-      lines += `<line x1="${Math.round(w*0.07)}" y1="${y}" x2="${Math.round(w*0.93)}" y2="${y}" stroke="#8b6914" stroke-width=".7" opacity=".28"/>`;
-    }
-    const bpad = Math.round(w * 0.06);
-    const border1 = `<rect x="${bpad}" y="${bpad}" width="${w-bpad*2}" height="${h-bpad*2}" fill="none" stroke="#9a7020" stroke-width="1.2" opacity=".4"/>`;
-    const border2 = `<rect x="${bpad+3}" y="${bpad+3}" width="${w-bpad*2-6}" height="${h-bpad*2-6}" fill="none" stroke="#9a7020" stroke-width=".5" opacity=".2"/>`;
-    // corner ornaments
-    const cornerSize = Math.round(w * 0.06);
-    const corners = [
-      [bpad, bpad], [w-bpad, bpad], [bpad, h-bpad], [w-bpad, h-bpad]
-    ].map(([cx,cy]) =>
-      `<path d="M${cx-cornerSize} ${cy} L${cx} ${cy} L${cx} ${cy-cornerSize}" fill="none" stroke="#9a7020" stroke-width="1.5" opacity=".4" transform="rotate(${cx > w/2 ? 90 : 0},${cx},${cy}) rotate(${cy > h/2 ? 180 : 0},${cx},${cy})"/>
-       <circle cx="${cx}" cy="${cy}" r="3" fill="#9a7020" opacity=".3"/>`
-    ).join('');
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block">
-      <defs>
-        <linearGradient id="pgfull" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#f6e9cc"/>
-          <stop offset="50%" stop-color="${nbPaperColor === '#fafaf7' ? '#ecdbb0' : nbPaperColor}"/>
-          <stop offset="100%" stop-color="#e0c898"/>
-        </linearGradient>
-      </defs>
-      <rect width="${w}" height="${h}" fill="url(#pgfull)"/>
-      <path d="M0 0 Q${w*0.04} ${h*0.05} 0 ${h*0.1} Q${w*0.04} ${h*0.2} 0 ${h*0.3} Q${w*0.04} ${h*0.5} 0 ${h*0.6} Q${w*0.04} ${h*0.75} 0 ${h*0.9} Q${w*0.04} ${h*0.95} 0 ${h} L0 0Z" fill="#c4a050" opacity=".18"/>
-      ${border1}${border2}${corners}${lines}
-    </svg>`;
+    for (let y = sy; y < h - 10; y += ls) lines += `<line x1="${Math.round(w*0.07)}" y1="${y}" x2="${Math.round(w*0.93)}" y2="${y}" stroke="#8b6914" stroke-width=".7" opacity=".28"/>`;
+    const bp = Math.round(w*0.06);
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block"><defs><linearGradient id="pgfull" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f6e9cc"/><stop offset="50%" stop-color="#ecdbb0"/><stop offset="100%" stop-color="#e0c898"/></linearGradient></defs><rect width="${w}" height="${h}" fill="url(#pgfull)"/><path d="M0 0 Q${w*0.04} ${h*0.05} 0 ${h*0.1} Q${w*0.04} ${h*0.2} 0 ${h*0.3} Q${w*0.04} ${h*0.5} 0 ${h*0.6} Q${w*0.04} ${h*0.75} 0 ${h*0.9} Q${w*0.04} ${h*0.95} 0 ${h} L0 0Z" fill="#c4a050" opacity=".18"/><rect x="${bp}" y="${bp}" width="${w-bp*2}" height="${h-bp*2}" fill="none" stroke="#9a7020" stroke-width="1.2" opacity=".4"/>${lines}</svg>`;
   },
-
   'blackboard': (w, h) => {
-    const lineSpacing = Math.round(h / 18);
-    const startY      = Math.round(h * 0.10);
-    const frameW      = Math.round(w * 0.055);
-    const chalkColor  = 'rgba(255,255,255,0.15)';
+    const ls = Math.round(h/18), sy = Math.round(h*0.10), fw = Math.round(w*0.055);
     let lines = '';
-    for (let y = startY; y < h - frameW; y += lineSpacing) {
-      lines += `<line x1="${frameW}" y1="${y}" x2="${w - frameW}" y2="${y}" stroke="${nbLineColor !== '#b8c8e0' ? nbLineColor : chalkColor}" stroke-width="1"/>`;
-    }
-    const ledgeH = Math.round(h * 0.07);
-    const chalkW = Math.round(w * 0.15);
-    const chalks = [0.12, 0.28, 0.44].map(p =>
-      `<rect x="${Math.round(w*p)}" y="${Math.round(h-ledgeH+h*0.01)}" width="${chalkW}" height="${Math.round(ledgeH*0.5)}" rx="2" fill="#e8e4d8" opacity=".9"/>`
-    ).join('');
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block">
-      <defs>
-        <linearGradient id="bbg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="${nbPaperColor === '#fafaf7' ? '#1e2a1e' : nbPaperColor}"/>
-          <stop offset="100%" stop-color="#0d150d"/>
-        </linearGradient>
-      </defs>
-      <rect width="${w}" height="${h}" fill="url(#bbg)"/>
-      <!-- wood frame -->
-      <rect width="${w}" height="${frameW}" fill="#6b3e1a"/>
-      <rect y="${h-frameW}" width="${w}" height="${frameW}" fill="#5c3414"/>
-      <rect width="${frameW}" height="${h}" fill="#6b3e1a"/>
-      <rect x="${w-frameW}" width="${frameW}" height="${h}" fill="#5c3414"/>
-      <!-- chalk ledge -->
-      <rect y="${h-ledgeH}" width="${w}" height="${ledgeH}" fill="#1a280a"/>
-      ${chalks}
-      ${lines}
-    </svg>`;
+    for (let y = sy; y < h - fw; y += ls) lines += `<line x1="${fw}" y1="${y}" x2="${w-fw}" y2="${y}" stroke="${nbLineColor !== '#b8c8e0' ? nbLineColor : 'rgba(255,255,255,0.15)'}" stroke-width="1"/>`;
+    const lh = Math.round(h*0.07);
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block"><defs><linearGradient id="bbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${nbPaperColor==='#fafaf7'?'#1e2a1e':nbPaperColor}"/><stop offset="100%" stop-color="#0d150d"/></linearGradient></defs><rect width="${w}" height="${h}" fill="url(#bbg)"/><rect width="${w}" height="${fw}" fill="#6b3e1a"/><rect y="${h-fw}" width="${w}" height="${fw}" fill="#5c3414"/><rect width="${fw}" height="${h}" fill="#6b3e1a"/><rect x="${w-fw}" width="${fw}" height="${h}" fill="#5c3414"/><rect y="${h-lh}" width="${w}" height="${lh}" fill="#1a280a"/><rect x="${Math.round(w*0.12)}" y="${Math.round(h-lh+h*0.01)}" width="${Math.round(w*0.15)}" height="${Math.round(lh*0.5)}" rx="2" fill="#e8e4d8" opacity=".9"/>${lines}</svg>`;
   },
-
   'open-book': (w, h) => {
-    const gutterW     = Math.round(w * 0.06);
-    const gutterX     = (w - gutterW) / 2;
-    const lineSpacing = Math.round(h / 18);
-    const startY      = Math.round(h * 0.08);
-    const pagePad     = Math.round(w * 0.06);
-    let leftLines = '', rightLines = '';
-    for (let y = startY; y < h - 10; y += lineSpacing) {
-      leftLines  += `<line x1="${pagePad}" y1="${y}" x2="${gutterX - 4}" y2="${y}" stroke="${nbLineColor}" stroke-width=".9" opacity=".65"/>`;
-      rightLines += `<line x1="${gutterX + gutterW + 4}" y1="${y}" x2="${w - pagePad}" y2="${y}" stroke="${nbLineColor}" stroke-width=".9" opacity=".65"/>`;
-    }
-    // spiral circles in gutter
-    let spirals = '';
-    for (let y = startY; y < h - 10; y += lineSpacing) {
-      spirals += `<ellipse cx="${w/2}" cy="${y}" rx="${gutterW * 0.36}" ry="${lineSpacing * 0.35}" fill="none" stroke="#999" stroke-width="1.3"/>`;
-    }
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block">
-      <rect width="${w}" height="${h}" fill="${nbPaperColor}"/>
-      <!-- gutter shadow -->
-      <rect x="${gutterX}" width="${gutterW}" height="${h}" fill="rgba(0,0,0,0.07)"/>
-      <!-- page crease lines -->
-      <line x1="${gutterX}" y1="0" x2="${gutterX}" y2="${h}" stroke="#ccc" stroke-width=".6"/>
-      <line x1="${gutterX + gutterW}" y1="0" x2="${gutterX + gutterW}" y2="${h}" stroke="#ccc" stroke-width=".6"/>
-      ${leftLines}${rightLines}
-      ${spirals}
-    </svg>`;
+    const gw = Math.round(w*0.06), gx = (w-gw)/2, ls = Math.round(h/18), sy = Math.round(h*0.08), pp = Math.round(w*0.06);
+    let ll='',rl='',sp='';
+    for (let y = sy; y < h-10; y += ls) { ll+=`<line x1="${pp}" y1="${y}" x2="${gx-4}" y2="${y}" stroke="${nbLineColor}" stroke-width=".9" opacity=".65"/>`; rl+=`<line x1="${gx+gw+4}" y1="${y}" x2="${w-pp}" y2="${y}" stroke="${nbLineColor}" stroke-width=".9" opacity=".65"/>`; sp+=`<ellipse cx="${w/2}" cy="${y}" rx="${gw*0.36}" ry="${ls*0.35}" fill="none" stroke="#999" stroke-width="1.3"/>`; }
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" style="display:block"><rect width="${w}" height="${h}" fill="${nbPaperColor}"/><rect x="${gx}" width="${gw}" height="${h}" fill="rgba(0,0,0,0.07)"/><line x1="${gx}" y1="0" x2="${gx}" y2="${h}" stroke="#ccc" stroke-width=".6"/><line x1="${gx+gw}" y1="0" x2="${gx+gw}" y2="${h}" stroke="#ccc" stroke-width=".6"/>${ll}${rl}${sp}</svg>`;
   },
 };
 
@@ -2187,37 +1860,20 @@ function setNotebook(type, btn) {
   document.getElementById('nb-controls').style.display = type === 'none' ? 'none' : 'block';
   renderNotebook();
 }
-
 function renderNotebook() {
   const layer = document.getElementById('notebook-layer');
-  if (currentNb === 'none') {
-    layer.classList.remove('visible');
-    layer.innerHTML = '';
-    return;
-  }
+  if (currentNb === 'none') { layer.classList.remove('visible'); layer.innerHTML = ''; return; }
   const card = document.getElementById('card');
-  const w = parseInt(card.style.width);
-  const h = parseInt(card.style.height);
+  const w = parseInt(card.style.width), h = parseInt(card.style.height);
   const gen = NB_GENERATORS[currentNb];
   if (!gen) return;
   layer.classList.add('visible');
   layer.style.opacity = nbOpacity / 100;
   layer.innerHTML = gen(w, h);
 }
-
-function setNbPaperColor(c) {
-  nbPaperColor = c;
-  renderNotebook();
-}
-function setNbLineColor(c) {
-  nbLineColor = c;
-  renderNotebook();
-}
-function setNbOpacity(v) {
-  nbOpacity = +v;
-  document.getElementById('nb-opacity-val').textContent = v;
-  renderNotebook();
-}
+function setNbPaperColor(c) { nbPaperColor = c; renderNotebook(); }
+function setNbLineColor(c)  { nbLineColor  = c; renderNotebook(); }
+function setNbOpacity(v)    { nbOpacity = +v; document.getElementById('nb-opacity-val').textContent = v; renderNotebook(); }
 
 /* ══════════════════════════════════════════
    WATERMARK
@@ -2227,17 +1883,9 @@ function toggleWmVis() {
   document.getElementById('wm-vis-toggle').classList.toggle('on', wmVisible);
   document.getElementById('watermark').style.display = wmVisible ? 'block' : 'none';
 }
-function setWmOpacity(v) {
-  document.getElementById('wm-opacity-val').textContent = v;
-  document.getElementById('watermark').style.opacity = v / 100;
-}
-function setWmColor(c) {
-  document.getElementById('watermark').style.color = c;
-}
-function setWmSize(v) {
-  document.getElementById('wm-size-val').textContent = v;
-  document.getElementById('watermark').style.fontSize = v + 'px';
-}
+function setWmOpacity(v) { document.getElementById('wm-opacity-val').textContent = v; document.getElementById('watermark').style.opacity = v/100; }
+function setWmColor(c)   { document.getElementById('watermark').style.color = c; }
+function setWmSize(v)    { document.getElementById('wm-size-val').textContent = v; document.getElementById('watermark').style.fontSize = v + 'px'; }
 
 /* ══════════════════════════════════════════
    TEXT POSITION
@@ -2245,10 +1893,8 @@ function setWmSize(v) {
 function setTextPos(pos) {
   const disp = document.getElementById('shayari-display');
   const card = document.getElementById('card');
-  const cw   = parseInt(card.style.width);
-  const ch   = parseInt(card.style.height);
-  const dw   = disp.offsetWidth;
-  const dh   = disp.offsetHeight;
+  const cw   = parseInt(card.style.width), ch = parseInt(card.style.height);
+  const dw   = disp.offsetWidth, dh = disp.offsetHeight;
   const pad  = 30;
   const map  = {
     'top-left':    [pad,          pad],
@@ -2276,7 +1922,11 @@ function setTextWidth(v) {
 }
 
 /* ══════════════════════════════════════════
-   DOWNLOAD
+   ✅ FIXED DOWNLOAD
+   Root cause: html2canvas can't reliably render blob: URLs.
+   Fix: images are stored as base64 data URLs on load.
+   During download we also temporarily set crossOrigin attribute
+   and ensure images are fully decoded before capture.
 ══════════════════════════════════════════ */
 async function downloadCard() {
   const btns = document.querySelectorAll('[id*="download-btn"]');
@@ -2291,10 +1941,11 @@ async function downloadCard() {
   hint.style.display  = 'none';
   guide.style.display = 'none';
   wzBar.style.display = 'none';
-  // Remove pip selection highlight for clean export
   document.getElementById('pip-img-el').classList.remove('pip-selected');
-
   document.querySelectorAll('.selected-word').forEach(el => el.classList.remove('selected-word'));
+
+  // Wait a tick for DOM to settle
+  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
   const card  = document.getElementById('card');
   const scale = parseFloat(document.getElementById('export-scale-range').value) || 2;
@@ -2306,6 +1957,20 @@ async function downloadCard() {
       allowTaint:      true,
       backgroundColor: null,
       logging:         false,
+      imageTimeout:    0,          // ✅ No timeout — wait for all images
+      onclone: (clonedDoc) => {
+        // ✅ Re-apply data URLs directly in the clone to guarantee rendering
+        const clonedBgImg  = clonedDoc.getElementById('bg-img-el');
+        const clonedPipImg = clonedDoc.getElementById('pip-img-el');
+        if (bgImgLoaded && bgImgDataURL) {
+          clonedBgImg.src = bgImgDataURL;
+          clonedBgImg.style.display = 'block';
+        }
+        if (pipImgLoaded && pipImgDataURL) {
+          clonedPipImg.src = pipImgDataURL;
+          clonedPipImg.style.display = 'block';
+        }
+      }
     });
 
     const link = document.createElement('a');
@@ -2330,43 +1995,31 @@ async function downloadCard() {
 /* ══════════════════════════════════════════
    PIP / STICKER IMAGE
 ══════════════════════════════════════════ */
-let pipImgScale   = 100;
-let pipImgX       = 60;
-let pipImgY       = 60;
-let pipImgLoaded  = false;
-let pipImgNatW    = 0;
-let pipImgNatH    = 0;
-let pipRadius     = 0;
-
-function loadPipImage(input) {
+async function loadPipImage(input) {
   const file = input.files[0];
   if (!file) return;
-  const url = URL.createObjectURL(file);
-  const imgEl = document.getElementById('pip-img-el');
 
+  // ✅ Convert to base64 data URL
+  pipImgDataURL = await fileToDataURL(file);
+
+  const imgEl = document.getElementById('pip-img-el');
   imgEl.onload = () => {
     pipImgNatW   = imgEl.naturalWidth;
     pipImgNatH   = imgEl.naturalHeight;
     pipImgLoaded = true;
-
-    // Default size: 30% of card width
     const card = document.getElementById('card');
     const cw   = parseInt(card.style.width);
     pipImgScale = (cw * 0.30 / pipImgNatW) * 100;
     document.getElementById('pip-scale-range').value = Math.min(400, Math.round(pipImgScale));
     document.getElementById('pip-scale-val').textContent = Math.round(pipImgScale);
-
-    // Place at top-right by default
     const scale = pipImgScale / 100;
-    const ch    = parseInt(card.style.height);
     pipImgX = cw - (pipImgNatW * scale) - 22;
     pipImgY = 22;
-
     applyPipImgTransform();
     document.getElementById('pip-img-controls').classList.add('visible');
     imgEl.style.display = 'block';
   };
-  imgEl.src = url;
+  imgEl.src = pipImgDataURL;
   input.value = '';
 }
 
@@ -2380,40 +2033,19 @@ function applyPipImgTransform() {
   imgEl.style.borderRadius = pipRadius + 'px';
 }
 
-function setPipScale(v) {
-  pipImgScale = +v;
-  document.getElementById('pip-scale-val').textContent = v;
-  applyPipImgTransform();
-}
-
-function setPipOpacity(v) {
-  document.getElementById('pip-opacity-val').textContent = v;
-  document.getElementById('pip-img-el').style.opacity = v / 100;
-}
-
-function setPipRadius(v) {
-  pipRadius = +v;
-  document.getElementById('pip-radius-val').textContent = v;
-  applyPipImgTransform();
-}
+function setPipScale(v)   { pipImgScale = +v; document.getElementById('pip-scale-val').textContent = v; applyPipImgTransform(); }
+function setPipOpacity(v) { document.getElementById('pip-opacity-val').textContent = v; document.getElementById('pip-img-el').style.opacity = v/100; }
+function setPipRadius(v)  { pipRadius = +v; document.getElementById('pip-radius-val').textContent = v; applyPipImgTransform(); }
 
 function setPipShape(shape, btn) {
   document.querySelectorAll('.pip-shape-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const card   = document.getElementById('card');
+  const scale = pipImgScale / 100;
+  const shortSide = Math.min(pipImgNatW * scale, pipImgNatH * scale);
+  if (shape === 'rect')    pipRadius = 0;
+  else if (shape === 'rounded') pipRadius = Math.round(shortSide * 0.18);
+  else if (shape === 'circle')  pipRadius = Math.round(shortSide / 2);
   const slider = document.getElementById('pip-radius-range');
-  if (shape === 'rect') {
-    pipRadius = 0;
-  } else if (shape === 'rounded') {
-    // ~20% of shorter side
-    const scale = pipImgScale / 100;
-    const shortSide = Math.min(pipImgNatW * scale, pipImgNatH * scale);
-    pipRadius = Math.round(shortSide * 0.18);
-  } else if (shape === 'circle') {
-    const scale = pipImgScale / 100;
-    const shortSide = Math.min(pipImgNatW * scale, pipImgNatH * scale);
-    pipRadius = Math.round(shortSide / 2);
-  }
   slider.value = Math.min(200, pipRadius);
   document.getElementById('pip-radius-val').textContent = Math.min(200, pipRadius);
   applyPipImgTransform();
@@ -2422,22 +2054,20 @@ function setPipShape(shape, btn) {
 function setPipPos(pos) {
   if (!pipImgLoaded) return;
   const card   = document.getElementById('card');
-  const cw     = parseInt(card.style.width);
-  const ch     = parseInt(card.style.height);
+  const cw     = parseInt(card.style.width), ch = parseInt(card.style.height);
   const scale  = pipImgScale / 100;
-  const pw     = pipImgNatW * scale;
-  const ph     = pipImgNatH * scale;
+  const pw     = pipImgNatW * scale, ph = pipImgNatH * scale;
   const pad    = 22;
   const map    = {
-    'top-left':   [pad,          pad],
-    'top-center': [(cw - pw) / 2, pad],
-    'top-right':  [cw - pw - pad, pad],
-    'mid-left':   [pad,           (ch - ph) / 2],
-    'mid-center': [(cw - pw) / 2, (ch - ph) / 2],
-    'mid-right':  [cw - pw - pad, (ch - ph) / 2],
-    'bot-left':   [pad,           ch - ph - pad],
-    'bot-center': [(cw - pw) / 2, ch - ph - pad],
-    'bot-right':  [cw - pw - pad, ch - ph - pad],
+    'top-left':   [pad,           pad],
+    'top-center': [(cw-pw)/2,     pad],
+    'top-right':  [cw-pw-pad,     pad],
+    'mid-left':   [pad,           (ch-ph)/2],
+    'mid-center': [(cw-pw)/2,     (ch-ph)/2],
+    'mid-right':  [cw-pw-pad,     (ch-ph)/2],
+    'bot-left':   [pad,           ch-ph-pad],
+    'bot-center': [(cw-pw)/2,     ch-ph-pad],
+    'bot-right':  [cw-pw-pad,     ch-ph-pad],
   };
   [pipImgX, pipImgY] = map[pos];
   applyPipImgTransform();
@@ -2445,15 +2075,12 @@ function setPipPos(pos) {
 
 function fitPipImg() {
   if (!pipImgLoaded) return;
-  const card   = document.getElementById('card');
-  const cw     = parseInt(card.style.width);
-  const ch     = parseInt(card.style.height);
-  const scaleW = cw / pipImgNatW;
-  const scaleH = ch / pipImgNatH;
-  pipImgScale  = Math.min(scaleW, scaleH) * 100;
+  const card  = document.getElementById('card');
+  const cw    = parseInt(card.style.width), ch = parseInt(card.style.height);
+  pipImgScale = Math.min(cw/pipImgNatW, ch/pipImgNatH) * 100;
   document.getElementById('pip-scale-range').value = Math.min(400, Math.round(pipImgScale));
   document.getElementById('pip-scale-val').textContent = Math.round(pipImgScale);
-  const scale  = pipImgScale / 100;
+  const scale = pipImgScale / 100;
   pipImgX = (cw - pipImgNatW * scale) / 2;
   pipImgY = (ch - pipImgNatH * scale) / 2;
   applyPipImgTransform();
@@ -2463,7 +2090,10 @@ function removePipImg() {
   const imgEl = document.getElementById('pip-img-el');
   imgEl.style.display = 'none';
   imgEl.src = '';
-  pipImgLoaded = false;
+  pipImgLoaded  = false;
+  pipImgDataURL = null;
+  pipImgLocked  = false;
+  document.getElementById('pip-lock-toggle').classList.remove('on');
   document.getElementById('pip-img-controls').classList.remove('visible');
   document.getElementById('pip-scale-range').value = 100;
   document.getElementById('pip-scale-val').textContent = 100;
